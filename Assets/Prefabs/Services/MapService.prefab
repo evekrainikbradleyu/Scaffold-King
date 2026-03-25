@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6391900069321241647}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 4214723728657202034}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 4314604410800966003}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 6678102734286134926}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 4337152213428183733}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 4301633267383580936}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -662,7 +662,7 @@ GameObject:
   - component: {fileID: 6023557334283266108}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -915,7 +915,7 @@ GameObject:
   - component: {fileID: 3680060876563150002}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1023,7 +1023,7 @@ GameObject:
   - component: {fileID: 6240577359535724540}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1217,7 +1217,7 @@ GameObject:
   - component: {fileID: 6728387283314591718}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1325,7 +1325,7 @@ GameObject:
   - component: {fileID: 6082252838346545298}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1433,7 +1433,7 @@ GameObject:
   - component: {fileID: 4838802871049298947}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1541,7 +1541,7 @@ GameObject:
   - component: {fileID: 111016709108814127}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1649,7 +1649,7 @@ GameObject:
   - component: {fileID: 8374202361902942179}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1757,7 +1757,7 @@ GameObject:
   - component: {fileID: 845798912432692095}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1865,7 +1865,7 @@ GameObject:
   - component: {fileID: 1204667956832138950}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2008,7 +2008,7 @@ GameObject:
   - component: {fileID: 7300940498990193012}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2230,7 +2230,7 @@ GameObject:
   - component: {fileID: 8739680466973211189}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2375,7 +2375,7 @@ GameObject:
   - component: {fileID: 7132487846749555259}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2483,7 +2483,7 @@ GameObject:
   - component: {fileID: 8715254798066568120}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2623,7 +2623,7 @@ GameObject:
   - component: {fileID: 4719865379386550901}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2731,7 +2731,7 @@ GameObject:
   - component: {fileID: 8941132158530036574}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2839,7 +2839,7 @@ GameObject:
   - component: {fileID: 3885604889817938298}
   m_Layer: 0
   m_Name: b
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2947,7 +2947,7 @@ GameObject:
   - component: {fileID: 6828234561745589581}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3092,7 +3092,7 @@ GameObject:
   - component: {fileID: 6367116374525066001}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3200,7 +3200,7 @@ GameObject:
   - component: {fileID: 7896108666426911320}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3308,7 +3308,7 @@ GameObject:
   - component: {fileID: 3271989556568125135}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3416,7 +3416,7 @@ GameObject:
   - component: {fileID: 5747917449590256862}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3524,7 +3524,7 @@ GameObject:
   - component: {fileID: 8366963829408796228}
   m_Layer: 0
   m_Name: e
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3632,7 +3632,7 @@ GameObject:
   - component: {fileID: 7679696666286715522}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3848,7 +3848,7 @@ GameObject:
   - component: {fileID: 3073316537222689206}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3993,7 +3993,7 @@ GameObject:
   - component: {fileID: 3808538987591700982}
   m_Layer: 0
   m_Name: d
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4101,7 +4101,7 @@ GameObject:
   - component: {fileID: 9166651976816052527}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4209,7 +4209,7 @@ GameObject:
   - component: {fileID: 4148025041414086215}
   m_Layer: 0
   m_Name: f
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4570,7 +4570,7 @@ GameObject:
   - component: {fileID: 6194611947281117696}
   m_Layer: 0
   m_Name: a
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4678,7 +4678,7 @@ GameObject:
   - component: {fileID: 1032764456515569962}
   m_Layer: 0
   m_Name: c
-  m_TagString: Untagged
+  m_TagString: ScaffoldSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
