@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         move = InputSystem.actions.FindAction("Move");
         interact = InputSystem.actions.FindAction("Interact");
-        leftClick = InputSystem.actions.FindAction("Left Click");
+        leftClick = InputSystem.actions.FindAction("Click");
 
         move.performed += MovePerformed;
         move.canceled += MoveCanceled;
@@ -246,9 +246,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnClick()
     {
-        Debug.Log("Clicked");
-
-        if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        // stops if a gui was clicked or player is moving
+        //if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        if (movingPlayer) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue
             ());
@@ -258,13 +258,30 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("ScaffoldSpot"))
             {
+                bool isScaffold = hit.collider.gameObject.transform.position.y 
+                    == 0;
+
+                bool currentSpaceIsClicked = currentSpace == mapController.GetSpaceFromVector(
+                    mapController.GetPosFromTransform(hit.collider.gameObject.
+                    transform));
+                bool currentYLayerIsClicked = playerYLayer == mapController.
+                    GetHeightFromFloat(hit.collider.gameObject.transform.parent
+                    .position.y);
+
+                // stops if the current space was clicked
+                if (currentSpaceIsClicked && ((isScaffold && 
+                    currentYLayerIsClicked) || (playerYLayer == 0 && hit.
+                    collider.gameObject.transform.position.y == 0))) { return;}
+
                 scaffoldingController.PlaceScaffolding
                 (
-                    0,
+                    1,
                     new Vector3
                     (
-                    0,
-                    mapController.GetVectorFromSpace(hit.collider.gameObject).x,
+                    mapController.GetHeightFromFloat(hit.collider.gameObject.
+                        transform.position.y),
+                    mapController.GetVectorFromSpace(hit.collider.gameObject).x
+                        ,
                     mapController.GetVectorFromSpace(hit.collider.gameObject).y
                     )
                 );

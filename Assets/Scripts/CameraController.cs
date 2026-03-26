@@ -7,6 +7,7 @@
 CameraTrack game object when right click is held down.
 *****************************************************************************/
 
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -21,10 +22,13 @@ public class CameraController : MonoBehaviour
     private InputAction rightClick;
     private Vector3 cameraOffset;
     private bool rightMouseButtonDown;
+    private float yOffset;
 
     [SerializeField] private GameObject cameraTrack;
     [SerializeField] private float cameraRotateSpeed;
     [SerializeField] private GameObject mapWalls;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float smoothingTime;
 
     #endregion
 
@@ -37,6 +41,7 @@ public class CameraController : MonoBehaviour
     {
         cameraOffset = transform.position - cameraTrack.transform.position;
         rightMouseButtonDown = false;
+        yOffset = transform.position.y-player.transform.position.y;
 
         rightClick = InputSystem.actions.FindAction("Right Click");
 
@@ -58,6 +63,8 @@ public class CameraController : MonoBehaviour
             transform.RotateAround(cameraTrack.transform.position, Vector3.up, 
                 cameraRotateSpeed * Input.GetAxis("Mouse X"));
         }
+
+        UpdateCameraY();
 
         #region wall shenanigans
 
@@ -86,6 +93,19 @@ public class CameraController : MonoBehaviour
 
         #endregion
 
+    }
+
+    #endregion
+
+    #region miscellaneous functions
+
+    private void UpdateCameraY()
+    {
+        float yVel = 0;
+
+        float newY = Mathf.SmoothDamp(transform.position.y, player.transform.
+            position.y + yOffset, ref yVel, smoothingTime);
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
     #endregion

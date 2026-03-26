@@ -25,7 +25,7 @@ public class ScaffoldingController : MonoBehaviour
     /// places a piece of scaffolding.
     /// </summary>
     /// <param name="scaffoldType">the type of scaffolding to place; available
-    /// types currently include: 0 - ladder</param>
+    /// types currently include: 0 - normal, 1- ladder</param>
     /// <param name="position">the position on the map to place the scaffolding
     /// ; x = height, y = row, z = col</param>
     public void PlaceScaffolding(int scaffoldType, Vector3 position)
@@ -42,8 +42,11 @@ public class ScaffoldingController : MonoBehaviour
                     position.z)).transform.position.z
             );
 
+        Destroy(mapController.GetSpaceFromVector(new Vector2(position.y, 
+            position.z)).GetComponent<BoxCollider>());
+
         // checks to see if scaffold type is 1x1, update when new types added
-        if (Array.Exists<int>(new int[] { 0 }, i => i == scaffoldType))
+        if (Array.Exists<int>(new int[] { 0, 1 }, i => i == scaffoldType))
         {
             if (position.x < mapController.MapHeight - 1)
             {

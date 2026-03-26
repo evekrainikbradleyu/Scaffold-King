@@ -235,5 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba47900f6132031498375ec8941538fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nearestWall: 0
   cameraTrack: {fileID: 3305914128609276022}
   cameraRotateSpeed: 4
+  mapWalls: {fileID: 0}
+  player: {fileID: 0}
+  smoothingTime: 0.3

@@ -104,7 +104,10 @@ public class MapController
         {
             for (int y = 0; y < Spaces[x].Count; y++)
             {
-                if (Spaces[x][y] == space)
+                if 
+                    (Spaces[x][y].transform.position.x == space.transform.
+                    position.x && Spaces[x][y].transform.position.z == space.
+                    transform.position.z)
                 {
                     return new Vector2(x, y);
                 }
@@ -113,17 +116,6 @@ public class MapController
 
         return Vector2.zero;
     }
-
-    /*public Vector2 GetVectorFromSpace(GameObject space)
-    {
-
-        return new Vector2
-        (
-            int.Parse(space.transform.parent.gameObject.name.ToCharArray()[3].ToString()),
-            Array.IndexOf((new char[] { 'a', 'b', 'c', 'd', 'e', 'f' }), space.
-                name.ToCharArray()[0]) + 1
-        );
-    }*/
 
     public GameObject GetSpaceFromVector(Vector2 spacePosition)
     {
@@ -136,25 +128,51 @@ public class MapController
         return Spaces[x][y];
     }
 
-    /*public GameObject GetSpaceFromVector(Vector2 spacePosition)
+    /// <summary>
+    /// gets the position on the board from an object's transform
+    /// </summary>
+    /// <param name="transform">object's transform</param>
+    /// <returns>position of object on board (height not included)</returns>
+    public Vector2 GetPosFromTransform(Transform transform)
     {
+        Vector2 pos = Vector2.zero;
 
-        foreach (List<GameObject> i in Spaces)
-        { 
-            foreach (GameObject k in i)
-            {
-                Debug.Log("Row name: " + k.transform.parent.gameObject.name);
-                if (int.Parse(k.transform.parent.gameObject.name.ToCharArray()[3].ToString())  
-                    == spacePosition.x && k.name.ToCharArray()[0] == (new char
-                    [] { 'a', 'b', 'c', 'd', 'e', 'f' })[(int) spacePosition.y 
-                    - 1])
-                {
-                    return k;
-                }
-            }
+        List<float> rowPositions = new List<float>();
+        List<float> columnPositions = new List<float>();
+
+        // get row and column position in the worldspace
+        foreach (var row in rows)
+        {
+            rowPositions.Add(row.transform.position.z);
         }
-        return null;
-    }*/
+        foreach (var col in spaces[0])
+        {
+            columnPositions.Add(col.transform.position.x);
+        }
+
+        // check what position the given transform is in
+        for (int i = 0; i < rowPositions.Count; i++)
+        {
+            pos.x = rowPositions[i] == transform.position.z ? rowPositions[i] :
+                0;
+        }
+        for (int i = 0; i < columnPositions.Count; i++)
+        {
+            pos.y = columnPositions[i] == transform.position.x ? 
+                columnPositions[i] : 0;
+        }
+
+        return pos.x == 0 || pos.y == 0 ? Vector2.zero : pos;
+    }
+
+    public int GetHeightFromFloat(float input)
+    {
+        if (input == 0) return 0;
+        float operatorOutput = (input - mapStartHeight) / yLayerDelta + 1;
+        int output = (int)operatorOutput;
+        return output;
+        
+    }
 
     #endregion
 
