@@ -10,6 +10,7 @@ using System;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -35,6 +36,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private RawImage nextScaffold;
     [SerializeField] private RawImage currentScaffold;
     [SerializeField] private Texture2D[] scaffoldIcons;
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject losePanel;
 
     #endregion
 
@@ -50,6 +53,7 @@ public class UIController : MonoBehaviour
         heightSlider.minValue = 1;
         heightSlider.maxValue = mapController.MapHeight;
         heightSlider.enabled = false;
+        winPanel.SetActive(false);
     }
 
     /// <summary>
@@ -61,6 +65,7 @@ public class UIController : MonoBehaviour
         UpdateHeightDisplay();
         UpdateScaffoldsRemainingDisplay();
         UpdateScaffoldDisplays();
+        CheckForLoss();
     }
 
     #endregion
@@ -104,6 +109,55 @@ public class UIController : MonoBehaviour
             , 0.78f, 0.78f) : Color.white;
     }
 
-    #endregion
+    /// <summary>
+    /// makes the win panel visible; called from PlayerController when the 
+    /// player wins.
+    /// </summary>
+    public void EnableWinPanel()
+    {
+        winPanel.SetActive(true);
+    }
+
+    /// <summary>
+    /// opens the lose panel if the player's out of scaffolding.
+    /// </summary>
+    public void CheckForLoss()
+    {
+        //       |
+        //   |   |  ||
+        // -------------       <---    it's there!
+        //   ||  |  |_
+        //       |
+        if (scaffoldingController.scaffoldingRemaining <= 0 && !losePanel.
+            activeSelf)
+        {
+            losePanel.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// exits the level
+    /// </summary>
+    public void ExitLevel()
+    {
+        // currently just quits the game. will be updated in beta to go back to
+        // menu. next level option will also be added.
+
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    /// <summary>
+    /// restarts the current scene
+    /// </summary>
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+#endregion
 
 }

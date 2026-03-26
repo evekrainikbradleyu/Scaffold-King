@@ -13,6 +13,7 @@ using NaughtyAttributes;
 using System.Runtime.CompilerServices;
 using System.Linq.Expressions;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject playerStartSpace;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private ScaffoldingController scaffoldingController;
+    [SerializeField] private UIController uIController;
 
     #endregion
 
@@ -159,6 +161,13 @@ public class PlayerController : MonoBehaviour
         playerYLayer += spaces;
         float timeElapsed = 0;
 
+        // if player would move up past the top, they win the game 
+        if (playerYLayer > mapController.MapHeight - 1)
+        {
+            WinLevel();
+            yield break;
+        }
+
         // moves player vertically over time
         while (timeElapsed < moveTime)
         {
@@ -257,6 +266,9 @@ public class PlayerController : MonoBehaviour
         // yet
         if (scaffoldingController.map.SolidGroundMap == null) { return; }
 
+        // prevents errors if the player has won
+        if (playerYLayer > mapController.MapHeight - 1) { return; }
+
         // gets state of the ground beneath the player currently
         playerOnSolidGround = scaffoldingController.map.SolidGroundMap  
             [playerYLayer]         // y layer
@@ -299,6 +311,12 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.CompareTag("ScaffoldSpot")) // if a spot suitable
                                                          // for placing
             {                                            // scaffolding is hit
+                // stop if not in placing mode
+                if (!scaffoldingController.placing) { return; }
+
+                // stop if no scaffolding left
+                if (scaffoldingController.scaffoldingRemaining <= 0) { return; }
+
                 scaffoldingController.PlaceScaffolding
                 (
                     new Vector3                               
@@ -318,6 +336,28 @@ public class PlayerController : MonoBehaviour
                 Destroy(hit.collider);
             }
         }
+    }
+
+    /// <summary>
+    /// removes all input actions; used when the game is won or when OnDestroy
+    /// is executed
+    /// </summary>
+    private void RemoveInputActions()
+    {
+        move.performed -= MovePerformed;
+        move.canceled -= MoveCanceled;
+        interact.performed -= InteractPerformed;
+        interact.canceled -= InteractCanceled;
+        leftClick.performed -= LeftClickPerformed;
+    }
+
+    /// <summary>
+    /// enables the UI's win panel and removes input actions from the player
+    /// </summary>
+    private void WinLevel()
+    {
+        uIController.EnableWinPanel();
+        RemoveInputActions();
     }
 
     /// <summary>
@@ -370,11 +410,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        move.performed -= MovePerformed;
-        move.canceled -= MoveCanceled;
-        interact.performed -= InteractPerformed;
-        interact.canceled -= InteractCanceled;
-        leftClick.performed -= LeftClickPerformed;
+        RemoveInputActions();
     }
 
     #endregion

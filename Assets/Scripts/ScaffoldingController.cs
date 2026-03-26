@@ -62,8 +62,6 @@ public class ScaffoldingController : MonoBehaviour
     /// ; x = height, y = row, z = col</param>
     public void PlaceScaffolding( Vector3 position)
     {
-        // stop if player isn't in placing mode
-        if (!placing) { return; }
 
         // stop if theres already scaffolding there
         if (map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)

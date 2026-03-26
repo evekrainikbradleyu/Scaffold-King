@@ -62,7 +62,9 @@ public class CurrentScaffoldMover : MonoBehaviour, IPointerEnterHandler,
     /// <param name="eventData">event data</param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        scaffoldingController.placing = !scaffoldingController.placing;
+        // only toggles if there's scaffolding remaining.
+        scaffoldingController.placing = scaffoldingController.
+            scaffoldingRemaining > 0 ? !scaffoldingController.placing : false;
     }
 
     #endregion
@@ -95,6 +97,10 @@ public class CurrentScaffoldMover : MonoBehaviour, IPointerEnterHandler,
     /// </summary>
     private void DoHoveringMovement()
     {
+        // keeps current scaffold icon tucked away if there's no scaffolding
+        // remaining
+        if (scaffoldingController.scaffoldingRemaining <= 0 ) { return; }
+
         if (hovering && GetComponent<RectTransform>().anchoredPosition.y <
             startAndEndPosYValues.y)
         {
