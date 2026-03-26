@@ -240,4 +240,4 @@ MonoBehaviour:
   cameraRotateSpeed: 4
   mapWalls: {fileID: 0}
   player: {fileID: 0}
-  smoothingTime: 0.3
+  smoothingTime: 0.05

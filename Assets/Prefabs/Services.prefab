@@ -32,6 +32,7 @@ Transform:
   - {fileID: 5096721896425579952}
   - {fileID: 9221410643340640158}
   - {fileID: 3187811840865264514}
+  - {fileID: 5034144410302332088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1465343156388059547
@@ -98,6 +99,10 @@ PrefabInstance:
       propertyPath: mapShellController
       value: 
       objectReference: {fileID: 395314080500776264}
+    - target: {fileID: 4099063157959558397, guid: cc7daf1bd63b1bc4c95a2ec63e6e72d5, type: 3}
+      propertyPath: scaffoldingController
+      value: 
+      objectReference: {fileID: 126401570096256995}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -277,3 +282,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba47900f6132031498375ec8941538fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &7840477849368833340
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7575282382089709613}
+    m_Modifications:
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5591954523915937864, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: m_Name
+      value: ScaffoldService
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: mapShellController
+      value: 
+      objectReference: {fileID: 395314080500776264}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+--- !u!114 &126401570096256995 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+  m_PrefabInstance: {fileID: 7840477849368833340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f816ed013b64eb349b50991222361d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5034144410302332088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2959470491697680772, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+  m_PrefabInstance: {fileID: 7840477849368833340}
+  m_PrefabAsset: {fileID: 0}

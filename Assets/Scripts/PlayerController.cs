@@ -21,18 +21,21 @@ public class PlayerController : MonoBehaviour
 
     // publics
 
+    public int playerYLayer;
+
     // privates
-    private InputAction move;
-    private Vector2 moveOutput;
     private MapController mapController;
-    private bool movingPlayer;
-    private GameObject currentSpace;
-    private bool onLadder;
-    private InputAction interact;
-    private int playerYLayer;
-    private bool interactOutput;
-    private bool playerOnSolidGround;
+    private InputAction move;
     private InputAction leftClick;
+    private InputAction interact;
+    private GameObject currentSpace;
+    private Vector2 moveOutput;
+    private bool onLadder;
+    private bool movingPlayer;
+    private bool playerOnSolidGround;
+    private bool interactOutput;
+
+    
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -50,16 +53,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        move = InputSystem.actions.FindAction("Move");
-        interact = InputSystem.actions.FindAction("Interact");
-        leftClick = InputSystem.actions.FindAction("Click");
+        // input actions
+        SetUpInputActions();
 
-        move.performed += MovePerformed;
-        move.canceled += MoveCanceled;
-        interact.performed += InteractPerformed;
-        interact.canceled += InteractCanceled;
-        leftClick.performed += LeftClickPerformed;
-
+        // variables
         mapController = mapShellController.shellController;
         movingPlayer = false;
         moveOutput = Vector2.zero;
@@ -67,6 +64,7 @@ public class PlayerController : MonoBehaviour
         onLadder = false;
         playerYLayer = 0;
 
+        // set player to start position
         transform.position = new Vector3
         (
             playerStartSpace.transform.position.x, 
@@ -83,13 +81,24 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+
+        // just a few debugging things below
         //Debug.Log("Move output: " + moveOutput.ToString());
         //Debug.Log("Interact output: " + interactOutput.ToString());
         //Debug.Log("On ladder: " + onLadder.ToString());
+        //Debug.Log("Current Scaffolding: " + scaffoldingController.
+        //    currentScaffolding.ToString());
+        //Debug.Log("Next Scaffolding: " + scaffoldingController.
+        //    nextScaffolding.ToString());
 
+        // makes sure the player isnt floating in midair
         UpdatePlayerOnSolidGround();
+        // makes the player fall if they are in fact floating in midair
         DoFalling();
+        // starts any moving if inputs received this frame
         StartInputMovements();
+        // starts interactions (like climbing ladders) if inputs received this 
+        // frame
         StartInteractions();
     }
 
@@ -105,11 +114,13 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovePlayer(GameObject destination, float moveTime)
     {
+        // gets positions to move to and sets timer
         Vector3 destinationPosition = destination.transform.position;
         Vector3 startPosition = transform.position;
         float timeElapsed = 0;
         movingPlayer = true;
 
+        // moves player over time
         while (timeElapsed < moveTime)
         {
             transform.position = new Vector3
@@ -125,6 +136,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        // sets player position to destination so it's at the exact spot
         transform.position = new Vector3(destinationPosition.x, transform.
             position.y, destinationPosition.z);
         movingPlayer = false;
@@ -134,17 +146,20 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// moves the player upwards
+    /// moves the player upwards (or downwards for falling if spaces is 
+    /// negative)
     /// </summary>
     /// <param name="spaces">how many spaces to move up</param>
     /// <param name="moveTime">how long it takes to move</param>
     /// <returns></returns>
     private IEnumerator MoveUp(int spaces, float moveTime)
     {
+        // sets timer and gets new position
         movingPlayer = true;
         playerYLayer += spaces;
         float timeElapsed = 0;
 
+        // moves player vertically over time
         while (timeElapsed < moveTime)
         {
             transform.position = new Vector3
@@ -160,6 +175,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        // sets player position to destination so it's at the exact spot
         transform.position = new Vector3(transform.position.x, mapController.
             MapLayerHeights[playerYLayer], transform.position.z);
         movingPlayer = false;
@@ -184,23 +200,32 @@ public class PlayerController : MonoBehaviour
 
         GameObject nextSpace = null;
 
+        // gets a vector2 to add to the current space's vector2 value to make
+        // the player move a single space in that direction
         Vector2 fixedMoveOutput = moveOutput.x == 0 ? moveOutput.y > 0 ?
             new Vector2(0, 1) : new Vector2(0, -1) : moveOutput.x > 0 ? new
             Vector2(1, 0) : new Vector2(-1, 0);
 
+        // depending on what direction the player is facing, fixes the movement
+        // to make it so that w always goes forward and asd move in their own
+        // respective directions as well
         fixedMoveOutput *= cameraController.nearestWall > 2 ? -1 : 1;
         fixedMoveOutput = cameraController.nearestWall % 2 == 0 ? new
             Vector2(-fixedMoveOutput.y, fixedMoveOutput.x) :
             fixedMoveOutput;
 
+        // gets the space from the current space + the fixed move output
         nextSpace = mapController.GetSpaceFromVector(mapController.
             GetVectorFromSpace(currentSpace) + fixedMoveOutput);
 
+        // old debugging stuff
         /*Debug.Log("next space vector:" + (mapController.
         GetVectorFromSpace(currentSpace) + fixedMoveOutput).ToString());*/
 
+        // ends function if no space was found (player is on edge of board)
         if (nextSpace == null) { return; }
 
+        // starts move routine
         StartCoroutine(MovePlayer(nextSpace, moveSpeed));
 
     }
@@ -211,11 +236,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void StartInteractions()
     {
+        // prevents interaction if the player is moving
         if (movingPlayer) { return; }
 
         if (interactOutput)
         {
-            if (onLadder)
+            if (onLadder) // for ladder scaffolds
             {
                 StartCoroutine(MoveUp(1, moveSpeed));
             }
@@ -227,27 +253,37 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void UpdatePlayerOnSolidGround()
     {
+        // prevents errors if the solid ground map hasnt been properly assigned
+        // yet
         if (scaffoldingController.map.SolidGroundMap == null) { return; }
 
+        // gets state of the ground beneath the player currently
         playerOnSolidGround = scaffoldingController.map.SolidGroundMap  
-            [playerYLayer]
+            [playerYLayer]         // y layer
             [(int)mapShellController.shellController.GetVectorFromSpace(
-                currentSpace).x]
+                currentSpace).x]        // z position / row
             [(int)mapShellController.shellController.GetVectorFromSpace(
-                currentSpace).y];
+                currentSpace).y];       // x position / col
     }
 
+    /// <summary>
+    /// makes the player fall when theyre not on solid ground
+    /// </summary>
     private void DoFalling()
     {
+        // no falling necessary if the player is moving or on solid ground
         if (movingPlayer || playerOnSolidGround) { return; }
 
         StartCoroutine(MoveUp(-1, moveSpeed));
     }    
 
+    /// <summary>
+    /// click function. places scaffolding, usually.
+    /// </summary>
     private void OnClick()
     {
         // stops if a gui was clicked or player is moving
-        //if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        if (EventSystem.current.IsPointerOverGameObject()) { return; }
         if (movingPlayer) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue
@@ -256,37 +292,48 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast (ray, out hit))
         {
-            if (hit.collider.CompareTag("ScaffoldSpot"))
-            {
-                bool isScaffold = hit.collider.gameObject.transform.position.y 
-                    == 0;
+            // prevent placing ladders on ladders
+            if (hit.collider.transform.parent.CompareTag("Ladder") &&
+                scaffoldingController.currentScaffolding == 1) { return; }
 
-                bool currentSpaceIsClicked = currentSpace == mapController.GetSpaceFromVector(
-                    mapController.GetPosFromTransform(hit.collider.gameObject.
-                    transform));
-                bool currentYLayerIsClicked = playerYLayer == mapController.
-                    GetHeightFromFloat(hit.collider.gameObject.transform.parent
-                    .position.y);
-
-                // stops if the current space was clicked
-                if (currentSpaceIsClicked && ((isScaffold && 
-                    currentYLayerIsClicked) || (playerYLayer == 0 && hit.
-                    collider.gameObject.transform.position.y == 0))) { return;}
-
+            if (hit.collider.CompareTag("ScaffoldSpot")) // if a spot suitable
+                                                         // for placing
+            {                                            // scaffolding is hit
                 scaffoldingController.PlaceScaffolding
                 (
-                    1,
-                    new Vector3
+                    new Vector3                               
                     (
+                        // height
                     mapController.GetHeightFromFloat(hit.collider.gameObject.
                         transform.position.y),
+                        // z value / row
                     mapController.GetVectorFromSpace(hit.collider.gameObject).x
                         ,
+                        // x value / col
                     mapController.GetVectorFromSpace(hit.collider.gameObject).y
                     )
                 );
+
+                // destroys collider to prevent further placement
+                Destroy(hit.collider);
             }
         }
+    }
+
+    /// <summary>
+    /// sets up all the input actions. goes in start.
+    /// </summary>
+    private void SetUpInputActions()
+    {
+        move = InputSystem.actions.FindAction("Move");
+        interact = InputSystem.actions.FindAction("Interact");
+        leftClick = InputSystem.actions.FindAction("Click");
+
+        move.performed += MovePerformed;
+        move.canceled += MoveCanceled;
+        interact.performed += InteractPerformed;
+        interact.canceled += InteractCanceled;
+        leftClick.performed += LeftClickPerformed;
     }
 
     #endregion
@@ -317,6 +364,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// prevents input actions from getting screwed up if gameObject is 
+    /// destroyed
+    /// </summary>
+    private void OnDestroy()
+    {
+        move.performed -= MovePerformed;
+        move.canceled -= MoveCanceled;
+        interact.performed -= InteractPerformed;
+        interact.canceled -= InteractCanceled;
+        leftClick.performed -= LeftClickPerformed;
+    }
+
     #endregion
 
     #region input functions
@@ -337,7 +397,9 @@ public class PlayerController : MonoBehaviour
     private void MovePerformed(InputAction.CallbackContext obj)
     {
         moveOutput = obj.ReadValue<Vector2>();
-        moveOutput = new Vector2 (moveOutput.y, moveOutput.x);
+
+        // this fixes things because i fucked some shit up while making this
+        moveOutput = new Vector2 (moveOutput.y, moveOutput.x); 
     }
 
     /// <summary>

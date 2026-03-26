@@ -17,8 +17,14 @@ public class MapShellController : MonoBehaviour
 
     #region variables
 
+    // publics
     public MapController shellController;
 
+    // privates
+
+    // *crickets*
+
+    // serialized privates
     [SerializeField] private int mapHeight;
     [SerializeField] private float yLayerDelta;
     [SerializeField] private float mapStartHeight;
@@ -30,8 +36,8 @@ public class MapShellController : MonoBehaviour
     /// <summary>
     /// assigns shellController
     /// </summary>
-    private void Awake()
-    {
+    private void Awake() // using awake instead of start to get ahead of other
+    {                    // scripts using the shellController
         shellController = new MapController(gameObject, new Vector3((float) 
             mapHeight, yLayerDelta, mapStartHeight));
     }
@@ -40,12 +46,14 @@ public class MapShellController : MonoBehaviour
 
 }
 
-[Serializable]
+[Serializable] // this DIDN'T WORK FOR SOME REASON AND I'M SO MAD but not mad 
+               // enough to try and fix it
 public class MapController
 {
 
     #region variables
 
+    // all private (use getters + setters)
     private List<GameObject> rows;
     private List<List<GameObject>> spaces;
     private int mapHeight;
@@ -69,6 +77,7 @@ public class MapController
         Rows = new List<GameObject>();
         Spaces = new List<List<GameObject>>();
 
+        // adds every space for scaffolding to go / player to move
         foreach (Transform child in shell.transform.Find("Floor"))
         {
             Rows.Add(child.gameObject);
@@ -88,6 +97,7 @@ public class MapController
 
         MapLayerHeights = new List<float>();
 
+        // sets up all map height values for easy access
         for (int i = 0; i < MapHeight; i++)
         {
             MapLayerHeights.Add(mapStartHeight + (i * YLayerDelta));
@@ -98,13 +108,21 @@ public class MapController
 
     #region functions
 
+    /// <summary>
+    /// gets the vector position (grid, not worldspace) of a space. does not 
+    /// include height.
+    /// </summary>
+    /// <param name="space">the space's GameObject</param>
+    /// <returns>vector position of space</returns>
     public Vector2 GetVectorFromSpace(GameObject space)
     {
         for (int x = 0; x < Spaces.Count; x++)
         {
             for (int y = 0; y < Spaces[x].Count; y++)
             {
-                if 
+                if     // checks against position values rather than
+                       // gameobjects themselves because multiple positions are
+                       // in the same column
                     (Spaces[x][y].transform.position.x == space.transform.
                     position.x && Spaces[x][y].transform.position.z == space.
                     transform.position.z)
@@ -114,9 +132,18 @@ public class MapController
             }
         }
 
+        // returns 0,0 if nothing found.
+        Debug.Log("vector not found for space. returning 0,0.");
         return Vector2.zero;
     }
 
+    /// <summary>
+    /// gets the space gameobject (on the floor) from the given vector. used 
+    /// for positioning.
+    /// </summary>
+    /// <param name="spacePosition">vector position of space</param>
+    /// <returns>space gameobject (use x and z values for positioning)
+    /// </returns>
     public GameObject GetSpaceFromVector(Vector2 spacePosition)
     {
         int x = (int)spacePosition.x;
@@ -165,11 +192,20 @@ public class MapController
         return pos.x == 0 || pos.y == 0 ? Vector2.zero : pos;
     }
 
+    /// <summary>
+    /// converts worldspace y value to map height
+    /// </summary>
+    /// <param name="input">worldspace y value</param>
+    /// <returns>map height</returns>
     public int GetHeightFromFloat(float input)
     {
-        if (input == 0) return 0;
+        // returns 0 if the height is the floor (floor space)
+        if (input == 0) { return 0; }
+        // formula
         float operatorOutput = (input - mapStartHeight) / yLayerDelta + 1;
+        // convert to int
         int output = (int)operatorOutput;
+
         return output;
         
     }

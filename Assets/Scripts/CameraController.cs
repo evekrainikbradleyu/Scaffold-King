@@ -17,13 +17,16 @@ public class CameraController : MonoBehaviour
 
     #region variables
 
+    // publics
     public int nearestWall;
 
+    // privates
     private InputAction rightClick;
     private Vector3 cameraOffset;
     private bool rightMouseButtonDown;
     private float yOffset;
 
+    // serialized privates
     [SerializeField] private GameObject cameraTrack;
     [SerializeField] private float cameraRotateSpeed;
     [SerializeField] private GameObject mapWalls;
@@ -57,13 +60,14 @@ public class CameraController : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        // rotates camera with cursor while holding right click
         if (rightMouseButtonDown)
         {
             transform.RotateAround(cameraTrack.transform.position, Vector3.up, 
                 cameraRotateSpeed * Input.GetAxis("Mouse X"));
         }
 
+        // check summary lol
         UpdateCameraY();
 
         #region wall shenanigans
@@ -99,13 +103,18 @@ public class CameraController : MonoBehaviour
 
     #region miscellaneous functions
 
+    /// <summary>
+    /// makes camera follow player up and down
+    /// </summary>
     private void UpdateCameraY()
     {
         float yVel = 0;
 
         float newY = Mathf.SmoothDamp(transform.position.y, player.transform.
             position.y + yOffset, ref yVel, smoothingTime);
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+
+        transform.position = new Vector3(transform.position.x, newY, transform.
+            position.z);
     }
 
     #endregion
