@@ -6,8 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestScenes/CameraTestScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/BuildScenes/MainMenu.unity
+    guid: c7aa165da8886ab49a9ff02d8def8ed3
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/LevelSelect.unity
+    guid: 5e01ab87f2caee54e9aeba7964ceb557
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/AlphaLevel1.unity
+    guid: 3bba89b5f219b6442b1e3acc21be2464
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

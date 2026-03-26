@@ -89,6 +89,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4099063157959558397, guid: cc7daf1bd63b1bc4c95a2ec63e6e72d5, type: 3}
+      propertyPath: uIController
+      value: 
+      objectReference: {fileID: 4107772125631309180}
+    - target: {fileID: 4099063157959558397, guid: cc7daf1bd63b1bc4c95a2ec63e6e72d5, type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 5963245361980618507}
@@ -138,6 +142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7575282382089709613}
     m_Modifications:
+    - target: {fileID: 2696460220835719273, guid: 8413818c03820ea45a66edf332ee9be4, type: 3}
+      propertyPath: mapHeight
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4990897129941922090, guid: 8413818c03820ea45a66edf332ee9be4, type: 3}
       propertyPath: m_Name
       value: MapService
@@ -350,6 +358,26 @@ PrefabInstance:
       propertyPath: mapShellController
       value: 
       objectReference: {fileID: 395314080500776264}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldingRemaining
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.data[0].y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.data[1].x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.data[1].y
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -379,6 +407,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7575282382089709613}
     m_Modifications:
+    - target: {fileID: 1858267267764091510, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
+      propertyPath: scaffoldingController
+      value: 
+      objectReference: {fileID: 126401570096256995}
     - target: {fileID: 3803629367281440237, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -440,6 +472,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
+--- !u!114 &4107772125631309180 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4911443501972915950, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
+  m_PrefabInstance: {fileID: 9018826779921376146}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74bb5a2bfb78d34cb9644cbbe7a8b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5323391021247346303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3803629367281440237, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}

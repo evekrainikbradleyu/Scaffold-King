@@ -386,6 +386,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="other">space collider</param>
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("entered collider");
+
         if (other.gameObject.CompareTag("Ladder"))
         {
             onLadder = true;
