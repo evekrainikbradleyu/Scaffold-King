@@ -25,6 +25,9 @@ public class CameraController : MonoBehaviour
     private Vector3 cameraOffset;
     private bool rightMouseButtonDown;
     private float yOffset;
+    private Vector2 mouseDelta;
+    private float mouseXDelta;
+    private float mouseYDelta;
 
     // serialized privates
     [SerializeField] private GameObject cameraTrack;
@@ -32,6 +35,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject mapWalls;
     [SerializeField] private GameObject player;
     [SerializeField] private float smoothingTime;
+    [SerializeField] private Vector2 verticalConstraints;
 
     #endregion
 
@@ -60,11 +64,16 @@ public class CameraController : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // sets new mouse delta values
+        GetMouseDelta();
+
         // rotates camera with cursor while holding right click
         if (rightMouseButtonDown)
         {
             transform.RotateAround(cameraTrack.transform.position, Vector3.up, 
-                cameraRotateSpeed * Input.GetAxis("Mouse X"));
+                cameraRotateSpeed * mouseXDelta);
+
+            Debug.Log(mouseYDelta.ToString());
         }
 
         // check summary lol
@@ -73,14 +82,14 @@ public class CameraController : MonoBehaviour
         #region wall shenanigans
 
         // make map walls transparent when the camera is behind them
-        mapWalls.transform.Find("Wall1").gameObject.SetActive(transform.
-            position.z <= 0 ? false : true);
-        mapWalls.transform.Find("Wall3").gameObject.SetActive(transform.
-            position.z > 0 ? false : true);
-        mapWalls.transform.Find("Wall2").gameObject.SetActive(transform.
-            position.x >= 0 ? false : true);
-        mapWalls.transform.Find("Wall4").gameObject.SetActive(transform.
-            position.x < 0 ? false : true);
+        mapWalls.transform.Find("Wall1").gameObject.SetActive(!(transform.
+            position.z <= 0));
+        mapWalls.transform.Find("Wall3").gameObject.SetActive(!(transform.
+            position.z > 0));
+        mapWalls.transform.Find("Wall2").gameObject.SetActive(!(transform.
+            position.x >= 0));
+        mapWalls.transform.Find("Wall4").gameObject.SetActive(!(transform.
+            position.x < 0));
 
         // set nearestwall
         nearestWall =
@@ -93,7 +102,7 @@ public class CameraController : MonoBehaviour
             transform.rotation.eulerAngles.y > 135 && transform.rotation.
                 eulerAngles.y <= 225 ?
             3 : 4;
-        // fuck yeah terniary operator biyatch
+        // fuck yeah ternary operator biyatch
 
         #endregion
 
@@ -115,6 +124,19 @@ public class CameraController : MonoBehaviour
 
         transform.position = new Vector3(transform.position.x, newY, transform.
             position.z);
+
+        cameraTrack.transform.position = new Vector3(cameraTrack.transform.
+            position.x, 1 + player.transform.position.y / 2, cameraTrack.
+            transform.position.z);
+
+        transform.LookAt(cameraTrack.transform);
+    }
+
+    private void GetMouseDelta()
+    {
+        mouseDelta = Mouse.current.delta.ReadValue();
+        mouseXDelta = mouseDelta.x;
+        mouseYDelta = mouseDelta.y;
     }
 
     #endregion

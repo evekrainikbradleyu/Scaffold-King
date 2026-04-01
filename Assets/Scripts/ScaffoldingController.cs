@@ -22,14 +22,16 @@ public class ScaffoldingController : MonoBehaviour
     public int nextScaffolding;
     public int scaffoldingRemaining; // assign in inspector
     public bool placing;
+    public GameObject[] scaffoldTypes;
 
     // privates
     private MapController mapController;
 
     // serialized privates
     [SerializeField] private MapShellController mapShellController;
-    [SerializeField] private GameObject[] scaffoldTypes;
     [SerializeField] private Vector2[] scaffoldRarities;
+    [SerializeField] private GameObject[] ghostScaffolds;
+    [SerializeField] private GameObject scaffoldFiller;
 
     #endregion
 
@@ -60,36 +62,43 @@ public class ScaffoldingController : MonoBehaviour
     /// </summary>
     /// <param name="position">the position on the map to place the scaffolding
     /// ; x = height, y = row, z = col</param>
-    public void PlaceScaffolding( Vector3 position)
+    public void PlaceScaffolding(Vector3 position)
     {
 
         // stop if theres already scaffolding there
-        if (map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
-            position.z] != null) { return; }
+        if (CheckForScaffolding(position)) { return; }
 
         // instantiate scaffolding
         map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
             position.z] = Instantiate(scaffoldTypes[currentScaffolding]);
         // set position of scaffolding
         map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
-            position.z].transform.position = new Vector3
-            (
-                mapController.GetSpaceFromVector(new Vector2(position.y,
-                    position.z)).transform.position.x, // gets space x position
-                mapController.MapLayerHeights[(int)position.x], // gets height
-                mapController.GetSpaceFromVector(new Vector2(position.y,
-                    position.z)).transform.position.z // gets space z position
-            );
+            position.z].transform.position = SetPlacePosition(position);
 
         // checks to see if scaffold type is 1x1, update when new types added
-        if (Array.Exists<int>(new int[] { 0, 1 }, i => i == currentScaffolding)
-            )
+        if (ScaffoldIs1x1())
         {
             if (position.x < mapController.MapHeight - 1)
             {
                 map.ToggleSolidGround(new Vector3
                     (
                         position.x + 1,
+                        position.y,
+                        position.z
+                    ));
+            }
+        } 
+        else if (ScaffoldIsTall())
+        {
+            // make sure top isn't null
+            map.ScaffoldingPlacements[(int)position.x + 1][(int)position.y][(
+                int)position.z] = Instantiate(scaffoldFiller);
+
+            if (position.x < mapController.MapHeight - 2)
+            {
+                map.ToggleSolidGround(new Vector3
+                    (
+                        position.x + 2,
                         position.y,
                         position.z
                     ));
@@ -102,6 +111,80 @@ public class ScaffoldingController : MonoBehaviour
 
         // toggles place mode to false for next scaffolding
         placing = false;
+    }
+
+    /// <summary>
+    /// used to place ghost scaffolding exclusively; very similar to normal
+    /// place function.
+    /// </summary>
+    /// <param name="position">position to place on in the grid</param>
+    /// <returns>ghost scaffold for placement in PlayerController</returns>
+    public GameObject PlaceGhostScaffolding(Vector3 position)
+    {
+        // stop if theres already scaffolding there
+        if (CheckForScaffolding(position)) { return null; }
+
+        GameObject ghostScaffold = Instantiate(ghostScaffolds[
+            currentScaffolding]);
+
+        ghostScaffold.transform.position = SetPlacePosition(position);
+
+        return ghostScaffold;
+    }
+
+    /// <summary>
+    /// returns the vector3 position to set the transform position of
+    /// scaffolding and ghost scaffolding to
+    /// </summary>
+    /// <param name="position">position on the scaffolding grid</param>
+    /// <returns>the vector3 position to set the transform position of
+    /// scaffolding and ghost scaffolding to</returns>
+    private Vector3 SetPlacePosition(Vector3 position)
+    {
+        return new Vector3
+        (
+            mapController.GetSpaceFromVector(new Vector2(position.y, position.z
+                )).transform.position.x, // gets space x position
+            mapController.MapLayerHeights[(int)position.x], // gets height
+            mapController.GetSpaceFromVector(new Vector2(position.y, position.z
+                )).transform.position.z // gets space z position
+        );
+    }
+
+    /// <summary>
+    /// returns true if theres already scaffolding in the selected spot
+    /// </summary>
+    /// <param name="position">the selected position on the scaffold grid
+    /// </param>
+    /// <returns>whether or not theres already scaffolding in the selected spot
+    /// </returns>
+    private bool CheckForScaffolding(Vector3 position)
+    {
+        return ScaffoldIs1x1() ? map.ScaffoldingPlacements[(int)position.x][(
+            int)position.y][(int)position.z] != null : ScaffoldIsTall() ? map.
+            ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
+            position.z] != null && map.ScaffoldingPlacements[(int)position.x][(
+            int)position.y][(int)position.z] != null : false;
+    }
+
+    /// <summary>
+    /// checks if current scaffold is basic 1x1x1
+    /// </summary>
+    /// <returns>true if the scaffold is 1x1x1</returns>
+    private bool ScaffoldIs1x1()
+    {
+        return Array.Exists<int>(new int[] { 0, 1 }, i => i ==
+            currentScaffolding);
+    }
+
+    /// <summary>
+    /// checks if current scaffold is tall (2 spaces tall)
+    /// </summary>
+    /// <returns>true if scaffold is tall</returns>
+    private bool ScaffoldIsTall()
+    {
+        return Array.Exists<int>(new int[] { 2 }, i => i == currentScaffolding)
+            ;
     }
 
     /// <summary>

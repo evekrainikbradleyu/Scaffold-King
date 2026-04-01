@@ -44,7 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f816ed013b64eb349b50991222361d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapShellController: {fileID: 0}
+  currentScaffolding: 0
+  nextScaffolding: 0
+  scaffoldingRemaining: 0
+  placing: 0
   scaffoldTypes:
   - {fileID: 6945585332584837214, guid: df4ab56ad3822004fb5054b4b39c7f97, type: 3}
   - {fileID: 6876390027048854984, guid: 661df6342214b104d939f7370411783d, type: 3}
+  mapShellController: {fileID: 0}
+  scaffoldRarities: []
+  ghostScaffolds: []
+  scaffoldFiller: {fileID: 0}

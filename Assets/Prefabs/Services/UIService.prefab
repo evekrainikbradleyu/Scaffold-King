@@ -3238,6 +3238,7 @@ MonoBehaviour:
   scaffoldIcons:
   - {fileID: 2800000, guid: 3955be715f384ec45b4a82b3396b5aa7, type: 3}
   - {fileID: 2800000, guid: 045d1b980a9d270429ebc9124797d819, type: 3}
+  - {fileID: 2800000, guid: 93b07d58ec124b84090f798652b4f403, type: 3}
   winPanel: {fileID: 1688908528636282115}
   losePanel: {fileID: 700097386794143540}
 --- !u!1 &8429918090788619812

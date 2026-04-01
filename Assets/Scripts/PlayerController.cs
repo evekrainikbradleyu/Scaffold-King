@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Linq.Expressions;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool movingPlayer;
     private bool playerOnSolidGround;
     private bool interactOutput;
-
+    private GameObject ghostScaffold;
     
 
     // serialized privates
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
         currentSpace = playerStartSpace;
         onLadder = false;
         playerYLayer = 0;
+        ghostScaffold = null;
 
         // set player to start position
         transform.position = new Vector3
@@ -102,6 +104,8 @@ public class PlayerController : MonoBehaviour
         // starts interactions (like climbing ladders) if inputs received this 
         // frame
         StartInteractions();
+        // show ghost scaffolds if in placing mode
+        DoGhostScaffolds();
     }
 
     #endregion
@@ -315,22 +319,10 @@ public class PlayerController : MonoBehaviour
                 if (!scaffoldingController.placing) { return; }
 
                 // stop if no scaffolding left
-                if (scaffoldingController.scaffoldingRemaining <= 0) { return; }
+                if (scaffoldingController.scaffoldingRemaining <= 0) { return; 
+                }
 
-                scaffoldingController.PlaceScaffolding
-                (
-                    new Vector3                               
-                    (
-                        // height
-                    mapController.GetHeightFromFloat(hit.collider.gameObject.
-                        transform.position.y),
-                        // z value / row
-                    mapController.GetVectorFromSpace(hit.collider.gameObject).x
-                        ,
-                        // x value / col
-                    mapController.GetVectorFromSpace(hit.collider.gameObject).y
-                    )
-                );
+                scaffoldingController.PlaceScaffolding(GetPlacePosition(hit));
 
                 // destroys collider to prevent further placement
                 Destroy(hit.collider);
@@ -374,6 +366,62 @@ public class PlayerController : MonoBehaviour
         interact.performed += InteractPerformed;
         interact.canceled += InteractCanceled;
         leftClick.performed += LeftClickPerformed;
+    }
+
+    private void DoGhostScaffolds()
+    {
+        // get rid of current ghost scaffold
+        Destroy(ghostScaffold);
+
+        // only activate if in placing mode
+        if (!scaffoldingController.placing) { return; }
+        if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        if (movingPlayer) { return; }
+
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue
+           ());
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit)) 
+        {
+            // doesn't show ladders being placed on ladders
+            if (hit.collider.transform.parent.CompareTag("Ladder") &&
+                scaffoldingController.currentScaffolding == 1) { return; }
+
+            if (hit.collider.CompareTag("ScaffoldSpot"))
+            {
+
+                ghostScaffold = scaffoldingController.PlaceGhostScaffolding(
+                    GetPlacePosition(hit));
+
+            }
+        }
+        else
+        {
+
+            ghostScaffold = null;
+
+        }
+    }
+
+    /// <summary>
+    /// finds the map position to place on for the scaffold placing and ghost 
+    /// scaffold placing functions
+    /// </summary>
+    /// <param name="hit">hit from original raycast</param>
+    /// <returns>place position for the scaffolding controller</returns>
+    private Vector3 GetPlacePosition(RaycastHit hit)
+    {
+        return new Vector3
+        (
+        // height
+            mapController.GetHeightFromFloat(hit.collider.gameObject.transform.
+                position.y),
+        // z value / row
+            mapController.GetVectorFromSpace(hit.collider.gameObject).x,
+        // x value / col
+            mapController.GetVectorFromSpace(hit.collider.gameObject).y
+        );
     }
 
     #endregion
