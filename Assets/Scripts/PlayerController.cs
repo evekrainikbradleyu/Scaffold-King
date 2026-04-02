@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool movingPlayer;
     private bool playerOnSolidGround;
     private bool interactOutput;
+    private bool onConveyor;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -99,6 +100,8 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerOnSolidGround();
         // makes the player fall if they are in fact floating in midair
         DoFalling();
+        // checks and moves the player if they're on a conveyor
+        DoConveyors();
         // starts any moving if inputs received this frame
         StartInputMovements();
         // starts interactions (like climbing ladders) if inputs received this 
@@ -276,10 +279,8 @@ public class PlayerController : MonoBehaviour
         // gets state of the ground beneath the player currently
         playerOnSolidGround = scaffoldingController.map.SolidGroundMap  
             [playerYLayer]         // y layer
-            [(int)mapShellController.shellController.GetVectorFromSpace(
-                currentSpace).x]        // z position / row
-            [(int)mapShellController.shellController.GetVectorFromSpace(
-                currentSpace).y];       // x position / col
+            [(int)GetPlayerPosition().y]        // z position / row
+            [(int)GetPlayerPosition().z];       // x position / col
     }
 
     /// <summary>
@@ -389,9 +390,12 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit)) 
         {
             // doesn't show ladders being placed on ladders
-            if (hit.collider.transform.parent.CompareTag("Ladder") &&
+            try 
+            {
+                if (hit.collider.transform.parent.CompareTag("Ladder") &&
                 scaffoldingController.currentScaffolding == 1) { return; }
-
+            } catch { } // shows an exception when mouse is over non-scaffold
+                        // spot collider
             if (hit.collider.CompareTag("ScaffoldSpot"))
             {
 
@@ -428,6 +432,35 @@ public class PlayerController : MonoBehaviour
         );
     }
 
+    private Vector3 GetPlayerPosition()
+    {
+        return new Vector3(playerYLayer, mapShellController.shellController.
+            GetVectorFromSpace(currentSpace).x, mapShellController.
+            shellController.GetVectorFromSpace(currentSpace).y);
+    }
+
+    private void DoConveyors()
+    {
+        if (!onConveyor || movingPlayer) {  return; }
+
+        GameObject nextSpace = null;
+
+        float conveyorRotation = scaffoldingController.GetScaffoldPlacement(
+            GetPlayerPosition() - Vector3.right).transform.eulerAngles.y;
+        Vector2 conveyorDirection = 
+            conveyorRotation == 0 ? new Vector2(-1, 0) :
+            conveyorRotation == 90 ? new Vector2(0, -1) :
+            conveyorRotation == 180 ? new Vector2(1, 0) :
+            /*conveyorRotation == 270 ?*/ new Vector2(0, 1);
+
+        nextSpace = mapController.GetSpaceFromVector(mapController.
+            GetVectorFromSpace(currentSpace) + conveyorDirection);
+
+        if (nextSpace == null) { return; }
+
+        StartCoroutine(MovePlayer(nextSpace, moveSpeed));
+    }
+
     #endregion
 
     #region other monobehaviour functions
@@ -444,6 +477,10 @@ public class PlayerController : MonoBehaviour
         {
             onLadder = true;
         }
+        else if (other.gameObject.CompareTag("Conveyor"))
+        {
+            onConveyor = true;
+        }
     }
 
     /// <summary>
@@ -455,6 +492,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ladder"))
         {
             onLadder = false;
+        }
+        else if (other.gameObject.CompareTag("Conveyor"))
+        {
+            onConveyor = false;
         }
     }
 
@@ -527,7 +568,7 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(obj.ReadValue<Vector2>().y) < scrollSensitivity) { return
                 ; }
 
-        Debug.Log(obj.ReadValue<Vector2>().ToString());
+        //Debug.Log(obj.ReadValue<Vector2>().ToString());
         scaffoldingController.UpdatePlaceDirection(obj.ReadValue<Vector2>().y);
     }
 

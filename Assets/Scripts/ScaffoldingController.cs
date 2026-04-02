@@ -179,12 +179,13 @@ public class ScaffoldingController : MonoBehaviour
     }
 
     /// <summary>
-    /// checks if current scaffold is basic 1x1x1
+    /// checks if current scaffold is basic 1x1x1; 1x1x1 scaffolds currently 
+    /// include normal scaffolds, ladder scaffolds, and conveyor scaffolds.
     /// </summary>
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1 }, i => i ==
+        return Array.Exists<int>(new int[] { 0, 1, 3}, i => i ==
             currentScaffolding);
     }
 
@@ -228,7 +229,7 @@ public class ScaffoldingController : MonoBehaviour
         nextScaffolding = GetNextScaffolding();
     }
 
-    private ref GameObject GetScaffoldPlacement(Vector3 position, Vector3 
+    public ref GameObject GetScaffoldPlacement(Vector3 position, Vector3 
         offset = default) // default is ok here since Vector3s default to 0,0,0
     {
         return ref map.ScaffoldingPlacements[(int)position.x + (int)offset.x][(
