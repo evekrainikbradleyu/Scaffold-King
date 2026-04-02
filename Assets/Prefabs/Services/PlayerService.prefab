@@ -131,6 +131,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   scaffoldingController: {fileID: 0}
   uIController: {fileID: 0}
+  scrollSensitivity: 0.5
 --- !u!54 &6224850001026089178
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -72,8 +72,6 @@ public class CameraController : MonoBehaviour
         {
             transform.RotateAround(cameraTrack.transform.position, Vector3.up, 
                 cameraRotateSpeed * mouseXDelta);
-
-            Debug.Log(mouseYDelta.ToString());
         }
 
         // check summary lol

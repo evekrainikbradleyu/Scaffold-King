@@ -26,6 +26,7 @@ public class ScaffoldingController : MonoBehaviour
 
     // privates
     private MapController mapController;
+    private int placeDirection;
 
     // serialized privates
     [SerializeField] private MapShellController mapShellController;
@@ -51,6 +52,8 @@ public class ScaffoldingController : MonoBehaviour
         nextScaffolding = GetNextScaffolding();
 
         placing = false;
+
+        placeDirection = 0;
     }
 
     #endregion
@@ -69,11 +72,14 @@ public class ScaffoldingController : MonoBehaviour
         if (CheckForScaffolding(position)) { return; }
 
         // instantiate scaffolding
-        map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
-            position.z] = Instantiate(scaffoldTypes[currentScaffolding]);
+        SetScaffoldPlacement(position, Instantiate(scaffoldTypes[
+            currentScaffolding]));
         // set position of scaffolding
-        map.ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
-            position.z].transform.position = SetPlacePosition(position);
+        GetScaffoldPlacement(position).transform.position = SetPlacePosition(
+            position);
+        // set rotation based on scroll
+        GetScaffoldPlacement(position).transform.eulerAngles = new Vector3(0, 
+            placeDirection * 90, 0);
 
         // checks to see if scaffold type is 1x1, update when new types added
         if (ScaffoldIs1x1())
@@ -91,8 +97,8 @@ public class ScaffoldingController : MonoBehaviour
         else if (ScaffoldIsTall())
         {
             // make sure top isn't null
-            map.ScaffoldingPlacements[(int)position.x + 1][(int)position.y][(
-                int)position.z] = Instantiate(scaffoldFiller);
+            SetScaffoldPlacement(position, Instantiate(scaffoldFiller), offset: 
+                Vector3.right); // Vector3.right == (1,0,0)
 
             if (position.x < mapController.MapHeight - 2)
             {
@@ -124,10 +130,16 @@ public class ScaffoldingController : MonoBehaviour
         // stop if theres already scaffolding there
         if (CheckForScaffolding(position)) { return null; }
 
+        // instantiate
         GameObject ghostScaffold = Instantiate(ghostScaffolds[
             currentScaffolding]);
 
+        // set position
         ghostScaffold.transform.position = SetPlacePosition(position);
+
+        // set rotation based on scroll
+        ghostScaffold.transform.eulerAngles = new Vector3(0, placeDirection * 
+            90, 0);
 
         return ghostScaffold;
     }
@@ -160,11 +172,10 @@ public class ScaffoldingController : MonoBehaviour
     /// </returns>
     private bool CheckForScaffolding(Vector3 position)
     {
-        return ScaffoldIs1x1() ? map.ScaffoldingPlacements[(int)position.x][(
-            int)position.y][(int)position.z] != null : ScaffoldIsTall() ? map.
-            ScaffoldingPlacements[(int)position.x][(int)position.y][(int)
-            position.z] != null && map.ScaffoldingPlacements[(int)position.x][(
-            int)position.y][(int)position.z] != null : false;
+        return ScaffoldIs1x1() ? GetScaffoldPlacement(position) != null :
+            ScaffoldIsTall() ? GetScaffoldPlacement(position) != null && 
+            GetScaffoldPlacement(position, offset: Vector3.right) != null : 
+            false;
     }
 
     /// <summary>
@@ -215,6 +226,28 @@ public class ScaffoldingController : MonoBehaviour
     {
         currentScaffolding = nextScaffolding;
         nextScaffolding = GetNextScaffolding();
+    }
+
+    private ref GameObject GetScaffoldPlacement(Vector3 position, Vector3 
+        offset = default) // default is ok here since Vector3s default to 0,0,0
+    {
+        return ref map.ScaffoldingPlacements[(int)position.x + (int)offset.x][(
+            int)position.y + (int)offset.y][(int)position.z + (int)offset.z];
+    }
+
+    private void SetScaffoldPlacement(Vector3 position, GameObject newObject, 
+        Vector3 offset = default) // same deal as GetScaffoldPlacement
+    {
+        map.ScaffoldingPlacements[(int)position.x + (int)offset.x][(int)
+            position.y + (int)offset.y][(int)position.z + (int)offset.z] = 
+            newObject;
+    }
+
+    public void UpdatePlaceDirection(float scrollInput)
+    {
+        placeDirection += scrollInput > 0 ? 1 : -1;
+        placeDirection = placeDirection < 0 ? 3 : placeDirection > 3 ? 0 : 
+            placeDirection;
     }
 
     #endregion

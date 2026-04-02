@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
     #region variables
 
     // publics
-
     public int playerYLayer;
 
     // privates
@@ -30,14 +29,14 @@ public class PlayerController : MonoBehaviour
     private InputAction move;
     private InputAction leftClick;
     private InputAction interact;
+    private InputAction scrollWheel;
     private GameObject currentSpace;
+    private GameObject ghostScaffold;
     private Vector2 moveOutput;
     private bool onLadder;
     private bool movingPlayer;
     private bool playerOnSolidGround;
     private bool interactOutput;
-    private GameObject ghostScaffold;
-    
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -47,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private ScaffoldingController scaffoldingController;
     [SerializeField] private UIController uIController;
+    [SerializeField] private float scrollSensitivity;
 
     #endregion
 
@@ -360,13 +360,17 @@ public class PlayerController : MonoBehaviour
         move = InputSystem.actions.FindAction("Move");
         interact = InputSystem.actions.FindAction("Interact");
         leftClick = InputSystem.actions.FindAction("Click");
+        scrollWheel = InputSystem.actions.FindAction("ScrollWheel");
 
         move.performed += MovePerformed;
         move.canceled += MoveCanceled;
         interact.performed += InteractPerformed;
         interact.canceled += InteractCanceled;
         leftClick.performed += LeftClickPerformed;
+        scrollWheel.performed += ScrollPerformed;
     }
+
+
 
     private void DoGhostScaffolds()
     {
@@ -512,8 +516,19 @@ public class PlayerController : MonoBehaviour
     /// <param name="obj">input ctx</param>
     private void LeftClickPerformed(InputAction.CallbackContext obj)
     {
-        Debug.Log("Left Click Detected");
+        //Debug.Log("Left Click Detected");
         OnClick();
+    }
+    private void ScrollPerformed(InputAction.CallbackContext obj)
+    {
+        // won't register if there's no output or if it's lower than the 
+        // sensitivity value
+        if (obj.ReadValue<Vector2>() == Vector2.zero) { return; }
+        if (Mathf.Abs(obj.ReadValue<Vector2>().y) < scrollSensitivity) { return
+                ; }
+
+        Debug.Log(obj.ReadValue<Vector2>().ToString());
+        scaffoldingController.UpdatePlaceDirection(obj.ReadValue<Vector2>().y);
     }
 
     #endregion
