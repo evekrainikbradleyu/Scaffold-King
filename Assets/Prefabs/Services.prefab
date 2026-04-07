@@ -380,15 +380,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldTypes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: ghostScaffolds.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: 'scaffoldTypes.Array.data[2]'
@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: 'scaffoldTypes.Array.data[3]'
       value: 
       objectReference: {fileID: 5934450744835792943, guid: a63b609b404215a4c878cf7c05a6196d, type: 3}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: 'scaffoldTypes.Array.data[4]'
+      value: 
+      objectReference: {fileID: 4363537595909695631, guid: d7c161b9d0ea94341b81396784cff4df, type: 3}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[0]'
       value: 
@@ -415,6 +419,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7838629663759661790, guid: c0050adca62e6fd4198ab387eefb9fb8, type: 3}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: 'ghostScaffolds.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[0].y
       value: 10
       objectReference: {fileID: 0}
@@ -424,7 +432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[1].y
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[2].x
@@ -432,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[2].y
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[3].x
@@ -440,7 +448,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: scaffoldRarities.Array.data[3].y
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.data[4].x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldRarities.Array.data[4].y
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
