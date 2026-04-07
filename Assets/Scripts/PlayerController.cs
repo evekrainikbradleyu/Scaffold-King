@@ -310,8 +310,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast (ray, out hit))
         {
             // prevent placing ladders on ladders
-            if (hit.collider.transform.parent.CompareTag("Ladder") &&
-                scaffoldingController.currentScaffolding == 1) { return; }
+            if (PreventLadderPlacement(hit)) { return; }
 
             if (hit.collider.CompareTag("ScaffoldSpot")) // if a spot suitable
                                                          // for placing
@@ -323,9 +322,13 @@ public class PlayerController : MonoBehaviour
                 if (scaffoldingController.scaffoldingRemaining <= 0) { return; 
                 }
 
-                scaffoldingController.PlaceScaffolding(GetPlacePosition(hit));
+                bool wasPlaced;
+
+                scaffoldingController.PlaceScaffolding(GetPlacePosition(hit), 
+                    out wasPlaced);
 
                 // destroys collider to prevent further placement
+                if (!wasPlaced) { return; }
                 Destroy(hit.collider);
             }
         }
@@ -342,6 +345,7 @@ public class PlayerController : MonoBehaviour
         interact.performed -= InteractPerformed;
         interact.canceled -= InteractCanceled;
         leftClick.performed -= LeftClickPerformed;
+        scrollWheel.performed -= ScrollPerformed;
     }
 
     /// <summary>
@@ -371,8 +375,9 @@ public class PlayerController : MonoBehaviour
         scrollWheel.performed += ScrollPerformed;
     }
 
-
-
+    /// <summary>
+    /// manages ghost scaffolds that are shown before placing
+    /// </summary>
     private void DoGhostScaffolds()
     {
         // get rid of current ghost scaffold
@@ -392,8 +397,7 @@ public class PlayerController : MonoBehaviour
             // doesn't show ladders being placed on ladders
             try 
             {
-                if (hit.collider.transform.parent.CompareTag("Ladder") &&
-                scaffoldingController.currentScaffolding == 1) { return; }
+                if (PreventLadderPlacement(hit)) { return; }
             } catch { } // shows an exception when mouse is over non-scaffold
                         // spot collider
             if (hit.collider.CompareTag("ScaffoldSpot"))
@@ -432,6 +436,12 @@ public class PlayerController : MonoBehaviour
         );
     }
 
+    /// <summary>
+    /// returns the current position of the player in the scaffold placement
+    /// grid
+    /// </summary>
+    /// <returns>the current position of the player in the scaffold placement
+    /// grid</returns>
     private Vector3 GetPlayerPosition()
     {
         return new Vector3(playerYLayer, mapShellController.shellController.
@@ -439,26 +449,85 @@ public class PlayerController : MonoBehaviour
             shellController.GetVectorFromSpace(currentSpace).y);
     }
 
+    /// <summary>
+    /// makes conveyors move the player
+    /// </summary>
     private void DoConveyors()
     {
+        // prevents from running if player isn't on a conveyor or is moving
         if (!onConveyor || movingPlayer) {  return; }
 
         GameObject nextSpace = null;
 
+        // finds the conveyor scaffold gameobject
+        GameObject playerConveyor = scaffoldingController.GetScaffoldPlacement(
+            GetPlayerPosition() - Vector3.right);
+
+        // gets the direction the conveyor is going
         float conveyorRotation = scaffoldingController.GetScaffoldPlacement(
             GetPlayerPosition() - Vector3.right).transform.eulerAngles.y;
         Vector2 conveyorDirection = 
             conveyorRotation == 0 ? new Vector2(-1, 0) :
             conveyorRotation == 90 ? new Vector2(0, -1) :
             conveyorRotation == 180 ? new Vector2(1, 0) :
-            /*conveyorRotation == 270 ?*/ new Vector2(0, 1);
+            /*conveyorRotation == 270 ?*/ new Vector2(0, 1) /*: Vector2.zero*/;
 
         nextSpace = mapController.GetSpaceFromVector(mapController.
             GetVectorFromSpace(currentSpace) + conveyorDirection);
 
         if (nextSpace == null) { return; }
+        // doesn't activate if there are two conveyors facing each other
+        if (OnConveyorsFacingEachother(playerConveyor, conveyorDirection)) { 
+            return; }
 
         StartCoroutine(MovePlayer(nextSpace, moveSpeed));
+    }
+
+    /// <summary>
+    /// detects if the player is on a conveyor directly facing into another 
+    /// conveyor facing toward the original conveyor. prevents a softlock.
+    /// </summary>
+    /// <param name="playerConveyor">player's conveyor</param>
+    /// <param name="conveyorDirection">direction it's facing</param>
+    /// <returns>true if the player's conveyor is facing another one that's
+    /// also facing it</returns>
+    private bool OnConveyorsFacingEachother(GameObject playerConveyor, Vector2 
+        conveyorDirection)
+    {
+        GameObject otherSpace = scaffoldingController.map.ScaffoldingPlacements
+            [playerYLayer - 1]
+            [(int)mapController.GetVectorFromSpace(currentSpace).x +
+            (int)conveyorDirection.x]
+            [(int)mapController.GetVectorFromSpace(currentSpace).y +
+            (int)conveyorDirection.y];
+
+        if (otherSpace == null) { return false; }
+        if (!otherSpace.CompareTag("Conveyor")) { return false; }
+
+        float[] rotations = new float[4] { 0, 90, 180, 270 };
+        float[] compatibleRotations = new float[4] { 180, 270, 0, 90 };
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerConveyor.transform.eulerAngles.y == rotations[i] && 
+                otherSpace.transform.eulerAngles.y == compatibleRotations[i])
+            { return true; }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// returns true if ladder placement needs to be prevented (eg ladder 
+    /// placement is useless or on another ladder)
+    /// </summary>
+    /// <param name="hit">raycasthit from place function</param>
+    /// <returns>true if ladder placement should be prevented</returns>
+    private bool PreventLadderPlacement(RaycastHit hit)
+    {
+        return (hit.collider.transform.parent.CompareTag("Ladder") || hit.
+            collider.transform.parent.CompareTag("Conveyor")) && 
+            scaffoldingController.currentScaffolding == 1;
     }
 
     #endregion
@@ -560,6 +629,11 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Left Click Detected");
         OnClick();
     }
+
+    /// <summary>
+    /// detects mouse scrolling
+    /// </summary>
+    /// <param name="obj">input ctx</param>
     private void ScrollPerformed(InputAction.CallbackContext obj)
     {
         // won't register if there's no output or if it's lower than the 

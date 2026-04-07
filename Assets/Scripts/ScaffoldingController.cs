@@ -10,6 +10,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 public class ScaffoldingController : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class ScaffoldingController : MonoBehaviour
     [SerializeField] private Vector2[] scaffoldRarities;
     [SerializeField] private GameObject[] ghostScaffolds;
     [SerializeField] private GameObject scaffoldFiller;
+    [SerializeField] private GameObject scaffoldFillerWithSpot;
 
     #endregion
 
@@ -65,11 +67,16 @@ public class ScaffoldingController : MonoBehaviour
     /// </summary>
     /// <param name="position">the position on the map to place the scaffolding
     /// ; x = height, y = row, z = col</param>
-    public void PlaceScaffolding(Vector3 position)
+    public void PlaceScaffolding(Vector3 position, out bool wasPlaced)
     {
+        wasPlaced = false;
 
         // stop if theres already scaffolding there
         if (CheckForScaffolding(position)) { return; }
+        // stops if scaffolds are overlapping
+        if (DetectOverlappingScaffolds(position)) { return; }
+        // stops if scaffold is unplaceable
+        if (!CanPlaceScaffold(position)) { return; }
 
         // instantiate scaffolding
         SetScaffoldPlacement(position, Instantiate(scaffoldTypes[
@@ -110,14 +117,55 @@ public class ScaffoldingController : MonoBehaviour
                     ));
             }
         }
+        else if (ScaffoldIsLong())
+        {
+            // gets the offset as well as the one to use for the 3d grid
+            Vector2 directionOffset = GetLongPlaceOffset();
+            Vector3 directionOffset3D = new Vector3(0, directionOffset.x,
+                directionOffset.y);
+
+            // stops if scaffold is being placed out of bounds; may be
+            // irrelevant but i don't feel like making sure it isn't right now
+            if (!IsWithinBounds(position, directionOffset3D)) {  return; }
+
+            // set scaffold spot position and such since there are two spots to
+            // place
+            SetScaffoldPlacement(position, Instantiate(scaffoldFillerWithSpot),
+                offset: directionOffset3D);
+            GetScaffoldPlacement(position, offset: directionOffset3D).transform
+                .position = SetPlacePosition(position + directionOffset3D);
+
+            // set solid grounds
+
+            if (position.x < mapController.MapHeight - 1)
+            {
+                map.ToggleSolidGround(new Vector3
+                    (
+                        position.x + 1,
+                        position.y,
+                        position.z
+                    ));
+                map.ToggleSolidGround(new Vector3
+                    (
+                        position.x + 1,
+                        position.y + directionOffset.x,
+                        position.z + directionOffset.y
+                    ));
+            }
+
+            
+        }
 
         // remove one scaffolding, get new current + next
         scaffoldingRemaining--;
         CycleScaffolding();
 
         // toggles place mode to false for next scaffolding
+        wasPlaced = true;
         placing = false;
     }
+
+
 
     /// <summary>
     /// used to place ghost scaffolding exclusively; very similar to normal
@@ -129,6 +177,8 @@ public class ScaffoldingController : MonoBehaviour
     {
         // stop if theres already scaffolding there
         if (CheckForScaffolding(position)) { return null; }
+
+        if (DetectOverlappingScaffolds(position)) { return null; }
 
         // instantiate
         GameObject ghostScaffold = Instantiate(ghostScaffolds[
@@ -185,7 +235,7 @@ public class ScaffoldingController : MonoBehaviour
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1, 3}, i => i ==
+        return Array.Exists<int>(new int[] { 0, 1, 3 }, i => i ==
             currentScaffolding);
     }
 
@@ -196,6 +246,12 @@ public class ScaffoldingController : MonoBehaviour
     private bool ScaffoldIsTall()
     {
         return Array.Exists<int>(new int[] { 2 }, i => i == currentScaffolding)
+            ;
+    }
+
+    private bool ScaffoldIsLong()
+    {
+        return Array.Exists<int>(new int[] { 4 }, i => i == currentScaffolding)
             ;
     }
 
@@ -229,6 +285,12 @@ public class ScaffoldingController : MonoBehaviour
         nextScaffolding = GetNextScaffolding();
     }
 
+    /// <summary>
+    /// returns the scaffold at a given position + optional offset
+    /// </summary>
+    /// <param name="position">the position to return for</param>
+    /// <param name="offset">optional offset; used for larger scaffolds</param>
+    /// <returns>the scaffold at the position + offset</returns>
     public ref GameObject GetScaffoldPlacement(Vector3 position, Vector3 
         offset = default) // default is ok here since Vector3s default to 0,0,0
     {
@@ -236,19 +298,151 @@ public class ScaffoldingController : MonoBehaviour
             int)position.y + (int)offset.y][(int)position.z + (int)offset.z];
     }
 
+    /// <summary>
+    /// directly assigns scaffold to a given position + optional offset
+    /// </summary>
+    /// <param name="position">the position to set</param>
+    /// <param name="newObject">the object (scaffold) to set it to</param>
+    /// <param name="offset">optional offset; used to place filler objects at 
+    /// parts of larger scaffolds so they don't return null</param>
     private void SetScaffoldPlacement(Vector3 position, GameObject newObject, 
         Vector3 offset = default) // same deal as GetScaffoldPlacement
     {
         map.ScaffoldingPlacements[(int)position.x + (int)offset.x][(int)
             position.y + (int)offset.y][(int)position.z + (int)offset.z] = 
             newObject;
+
+        // makes sure to get rid of lower scaffold spots when placing a spot 
+        // filler
+        if (newObject.CompareTag("SpotFiller"))
+        {
+            //Debug.Log(position.ToString());
+
+            // if on the floor gets floor spot instead of scaffold spot
+            if (position.x + offset.x == 0)
+            {
+                Destroy(mapShellController.shellController.Spaces[(int)position
+                    .y + (int)offset.y][(int)position.z + (int)offset.z].
+                    transform.GetComponent<BoxCollider>());
+            }
+            else
+            {
+                Destroy(GetScaffoldPlacement(position, offset: Vector3.left).
+                    transform.Find("ScaffoldSpot").GetComponent<BoxCollider>())
+                    ;
+            }
+        }
     }
 
+    /// <summary>
+    /// updates the rotation for scaffolds being placed; called in 
+    /// PlayerController
+    /// </summary>
+    /// <param name="scrollInput">the mouse's scroll wheel input from 
+    /// PlayerController</param>
     public void UpdatePlaceDirection(float scrollInput)
     {
         placeDirection += scrollInput > 0 ? 1 : -1;
         placeDirection = placeDirection < 0 ? 3 : placeDirection > 3 ? 0 : 
             placeDirection;
+    }
+
+    /// <summary>
+    /// sees if any scaffolds are overlapping
+    /// </summary>
+    /// <param name="position">position to check from</param>
+    /// <returns>whether any scaffolds in the next scaffold placement are 
+    /// overlapping</returns>
+    private bool DetectOverlappingScaffolds(Vector3 position)
+    {
+        // cannot overlap; if it does then there's an obvious issue somewhere
+        if (ScaffoldIs1x1()) { return false; }
+
+        // makes sure not overlapping with something above it
+        if (ScaffoldIsTall())
+        {
+            return GetScaffoldPlacement(position, offset: Vector3.right) != 
+                null; // vector3.right is just 1,0,0 so its easier
+        }
+
+        // makes sure not overlapping with something to the side of it
+        if (ScaffoldIsLong())
+        {
+            Vector2 dir = GetLongPlaceOffset();
+            Vector3 offset = new Vector3(0, dir.x, dir.y);
+            
+            // stops if it sticks out of bounds
+            if (!IsWithinBounds(position, offset)) return true;
+
+            // makes sure theres no scaffold in the spot that sticks out
+            return GetScaffoldPlacement(position, offset) != null;
+        }
+
+        // hopefully it doesn't get to this point
+        Debug.Log("scaffold type not implemented in DetectOverlappingScaffolds"
+            );
+        return false;
+    }
+
+    /// <summary>
+    /// gets the offset vector for the placement of long scaffolding
+    /// </summary>
+    /// <returns>the offset vector for the placement of long scaffolding
+    /// </returns>
+    private Vector2 GetLongPlaceOffset()
+    {
+        return placeDirection == 0 ? Vector2.down :
+                placeDirection == 1 ? Vector2.right : placeDirection == 2 ?
+                Vector2.up : Vector2.left;
+    }
+    
+    /// <summary>
+    /// checks to make sure a given position is within bounds
+    /// </summary>
+    /// <param name="position">the given position</param>
+    /// <param name="offset">offset; used for long and tall scaffolding</param>
+    /// <returns>true if the position is within bounds</returns>
+    private bool IsWithinBounds(Vector3 position, Vector3 offset = default)
+    {
+        // get positions first because its easier to read
+        int x = (int)position.x + (int)offset.x;
+        int y = (int)position.y + (int)offset.y;
+        int z = (int)position.z + (int)offset.z;
+
+        // makes sure it isn't out of bounds
+        return x >= 0 && x < mapController.MapHeight &&
+               y >= 0 && y < mapController.Rows.Count &&
+               z >= 0 && z < mapController.Spaces[0].Count;
+    }
+
+    /// <summary>
+    /// checks to see if scaffold is placeable in the given position
+    /// </summary>
+    /// <param name="position">the given position</param>
+    /// <returns>true if there will be no issues placing the scaffolding
+    /// </returns>
+    private bool CanPlaceScaffold(Vector3 position)
+    {
+        // if out of bounds cannot place
+        if (!IsWithinBounds(position, Vector3.zero)) { return false; }
+
+        // if the longer part is out of bounds cannot place
+        if (ScaffoldIsLong())
+        {
+            Vector2 dir = GetLongPlaceOffset();
+            Vector3 offset = new Vector3(0, dir.x, dir.y);
+
+            if (!IsWithinBounds(position, offset: offset)) { return false; }
+        }
+
+        // if the upper part is out of bounds cannot place
+        if (ScaffoldIsTall())
+        {
+            if (!IsWithinBounds(position, offset: Vector3.right)) { return false; }
+        }
+
+        // else
+        return true;
     }
 
     #endregion
