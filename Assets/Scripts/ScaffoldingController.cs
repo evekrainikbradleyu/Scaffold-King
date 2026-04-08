@@ -11,6 +11,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using UnityEngine.PlayerLoop;
 
 public class ScaffoldingController : MonoBehaviour
 {
@@ -100,11 +101,28 @@ public class ScaffoldingController : MonoBehaviour
                         position.z
                     ));
             }
-        } 
+
+            if (currentScaffolding == 5)
+            {
+                bool blockadesBetweenRows = placeDirection % 2 == 0;
+                map.MovementBlockades.Add(new Vector3[]
+                    {
+                        position,
+                        position + (blockadesBetweenRows ? Vector3.up : Vector3
+                            .forward)
+                    });
+                map.MovementBlockades.Add(new Vector3[]
+                    {
+                        position,
+                        position + (blockadesBetweenRows ? Vector3.down :
+                            Vector3.back)
+                    });
+            }
+        }
         else if (ScaffoldIsTall())
         {
             // make sure top isn't null
-            SetScaffoldPlacement(position, Instantiate(scaffoldFiller), offset: 
+            SetScaffoldPlacement(position, Instantiate(scaffoldFiller), offset:
                 Vector3.right); // Vector3.right == (1,0,0)
 
             if (position.x < mapController.MapHeight - 2)
@@ -126,7 +144,7 @@ public class ScaffoldingController : MonoBehaviour
 
             // stops if scaffold is being placed out of bounds; may be
             // irrelevant but i don't feel like making sure it isn't right now
-            if (!IsWithinBounds(position, directionOffset3D)) {  return; }
+            if (!IsWithinBounds(position, directionOffset3D)) { return; }
 
             // set scaffold spot position and such since there are two spots to
             // place
@@ -153,7 +171,7 @@ public class ScaffoldingController : MonoBehaviour
                     ));
             }
 
-            
+
         }
 
         // remove one scaffolding, get new current + next
@@ -230,12 +248,13 @@ public class ScaffoldingController : MonoBehaviour
 
     /// <summary>
     /// checks if current scaffold is basic 1x1x1; 1x1x1 scaffolds currently 
-    /// include normal scaffolds, ladder scaffolds, and conveyor scaffolds.
+    /// include normal scaffolds, ladder scaffolds, conveyor scaffolds, and two
+    /// way scaffolds.
     /// </summary>
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1, 3 }, i => i ==
+        return Array.Exists<int>(new int[] { 0, 1, 3, 5 }, i => i ==
             currentScaffolding);
     }
 
@@ -327,9 +346,15 @@ public class ScaffoldingController : MonoBehaviour
             }
             else
             {
-                Destroy(GetScaffoldPlacement(position, offset: Vector3.left).
+                if (GetScaffoldPlacement(position, offset: Vector3.left).
                     transform.Find("ScaffoldSpot").GetComponent<BoxCollider>())
-                    ;
+                {
+                    Destroy(GetScaffoldPlacement(position, offset: Vector3.left
+                        ).transform.Find("ScaffoldSpot").GetComponent<
+                        BoxCollider>());
+                }
+
+                
             }
         }
     }
@@ -456,6 +481,7 @@ public class ScaffoldMap
 
     private bool[][][] solidGroundMap;
     private GameObject[][][] scaffoldingPlacements;
+    private List<Vector3[]> movementBlockades;
 
     #endregion
 
@@ -485,6 +511,8 @@ public class ScaffoldMap
                 }
             }
         }
+
+        movementBlockades = new List<Vector3[]>();
     }
 
     #endregion
@@ -513,6 +541,7 @@ public class ScaffoldMap
             solidGroundMap = value; }
     public GameObject[][][] ScaffoldingPlacements { get => 
             scaffoldingPlacements; set => scaffoldingPlacements = value; }
+    public List<Vector3[]> MovementBlockades { get => movementBlockades; set => movementBlockades = value; }
 
     #endregion
 }

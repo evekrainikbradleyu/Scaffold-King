@@ -123,6 +123,8 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovePlayer(GameObject destination, float moveTime)
     {
+        if (PlayerPathBlocked(destination)) { yield break; }
+
         // gets positions to move to and sets timer
         Vector3 destinationPosition = destination.transform.position;
         Vector3 startPosition = transform.position;
@@ -528,6 +530,27 @@ public class PlayerController : MonoBehaviour
         return (hit.collider.transform.parent.CompareTag("Ladder") || hit.
             collider.transform.parent.CompareTag("Conveyor")) && 
             scaffoldingController.currentScaffolding == 1;
+    }
+
+    private bool PlayerPathBlocked(GameObject targetSpace)
+    {
+        foreach (Vector3[] i in scaffoldingController.map.MovementBlockades)
+        {
+            if (i[0].x == playerYLayer)
+            {
+                if ((new Vector2(i[0].y, i[0].z) == mapController.
+                    GetVectorFromSpace(currentSpace) && new Vector2(i[1].y, i[1
+                    ].z) == mapController.GetVectorFromSpace(targetSpace)) || (
+                    new Vector2(i[0].y, i[0].z) == mapController.
+                    GetVectorFromSpace(targetSpace) && new Vector2(i[1].y, i[1]
+                    .z) == mapController.GetVectorFromSpace(currentSpace)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     #endregion

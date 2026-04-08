@@ -303,31 +303,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldTypes.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: ghostScaffolds.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldTypes.Array.data[4]'
       value: 
       objectReference: {fileID: 4363537595909695631, guid: d7c161b9d0ea94341b81396784cff4df, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldTypes.Array.data[5]'
+      value: 
+      objectReference: {fileID: 641061529982357708, guid: af9d93acf7a3cbd478ef8801a5d815a1, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[4]'
       value: 
       objectReference: {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'ghostScaffolds.Array.data[5]'
+      value: 
+      objectReference: {fileID: 6217557965275253755, guid: 12dba9162b39eaa4396209bfc3fd05f4, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[0].y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[1].y
-      value: 10
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[2].y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[3].y
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[4].x
@@ -335,16 +351,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[4].y
-      value: 10
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[5].x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[5].y
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldIcons.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldIcons.Array.data[4]'
       value: 
       objectReference: {fileID: 2800000, guid: 66d1a417b048dc6499eec3c20264417d, type: 3}
+    - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldIcons.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 6583985c01e8c584885c374130e71364, type: 3}
     - target: {fileID: 5673136612942997891, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: m_Name
       value: Services
