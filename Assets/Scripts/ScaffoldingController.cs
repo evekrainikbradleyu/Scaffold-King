@@ -94,29 +94,40 @@ public class ScaffoldingController : MonoBehaviour
         {
             if (position.x < mapController.MapHeight - 1)
             {
-                map.ToggleSolidGround(new Vector3
-                    (
-                        position.x + 1,
-                        position.y,
-                        position.z
-                    ));
+                map.ToggleSolidGround(position + Vector3.right);
             }
 
-            if (currentScaffolding == 5)
+            // prevent movement between spaces if its a blocked scaffold or 
+            // building block
+
+            Vector3[] dirs;
+            
+            switch (currentScaffolding)
             {
-                bool blockadesBetweenRows = placeDirection % 2 == 0;
-                map.MovementBlockades.Add(new Vector3[]
+                case 5:
+                    bool blockadesBetweenRows = placeDirection % 2 == 0;
+                    map.AddBlockade(position, (blockadesBetweenRows ? Vector3.up :
+                        Vector3.forward));
+                    map.AddBlockade(position, (blockadesBetweenRows ? Vector3.down
+                        : Vector3.back));
+                    break;
+                case 6:
+                    dirs = new Vector3[] { Vector3.up, Vector3.forward, Vector3.
+                            down, Vector3.back};
+                    for (int i = 0; i < dirs.Length; i++)
                     {
-                        position,
-                        position + (blockadesBetweenRows ? Vector3.up : Vector3
-                            .forward)
-                    });
-                map.MovementBlockades.Add(new Vector3[]
-                    {
-                        position,
-                        position + (blockadesBetweenRows ? Vector3.down :
-                            Vector3.back)
-                    });
+                        map.AddBlockade(position, dirs[i]);
+                    }
+                    dirs = null;
+                    break;
+                case 7:
+                    int blockDir = placeDirection;
+                    dirs = new Vector3[] { Vector3.up, Vector3.back, 
+                        Vector3.down, Vector3.forward };
+                    map.AddBlockade(position, dirs[blockDir]);
+                    blockDir = blockDir == 3 ? 0 : blockDir + 1;
+                    map.AddBlockade(position, dirs[blockDir]);
+                    break;
             }
         }
         else if (ScaffoldIsTall())
@@ -127,12 +138,7 @@ public class ScaffoldingController : MonoBehaviour
 
             if (position.x < mapController.MapHeight - 2)
             {
-                map.ToggleSolidGround(new Vector3
-                    (
-                        position.x + 2,
-                        position.y,
-                        position.z
-                    ));
+                map.ToggleSolidGround(position + Vector3.right * 2);
             }
         }
         else if (ScaffoldIsLong())
@@ -157,12 +163,7 @@ public class ScaffoldingController : MonoBehaviour
 
             if (position.x < mapController.MapHeight - 1)
             {
-                map.ToggleSolidGround(new Vector3
-                    (
-                        position.x + 1,
-                        position.y,
-                        position.z
-                    ));
+                map.ToggleSolidGround(position + Vector3.right);
                 map.ToggleSolidGround(new Vector3
                     (
                         position.x + 1,
@@ -248,18 +249,24 @@ public class ScaffoldingController : MonoBehaviour
 
     /// <summary>
     /// checks if current scaffold is basic 1x1x1; 1x1x1 scaffolds currently 
-    /// include normal scaffolds, ladder scaffolds, conveyor scaffolds, and two
-    /// way scaffolds.
+    /// include: 
+    /// 0. normal scaffolds 
+    /// 1. ladder scaffolds 
+    /// 3. conveyor scaffolds
+    /// 5. two way scaffolds 
+    /// 6. building blocks
+    /// 7. corner scaffolds
     /// </summary>
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1, 3, 5 }, i => i ==
+        return Array.Exists<int>(new int[] { 0, 1, 3, 5, 6, 7 }, i => i ==
             currentScaffolding);
     }
 
     /// <summary>
-    /// checks if current scaffold is tall (2 spaces tall)
+    /// checks if current scaffold is tall (2 spaces tall). currently includes:
+    /// 2. tall scaffolds
     /// </summary>
     /// <returns>true if scaffold is tall</returns>
     private bool ScaffoldIsTall()
@@ -268,6 +275,11 @@ public class ScaffoldingController : MonoBehaviour
             ;
     }
 
+    /// <summary>
+    /// checks if current scaffold is long (2 spaces long). currently includes:
+    /// 4. long scaffolds
+    /// </summary>
+    /// <returns></returns>
     private bool ScaffoldIsLong()
     {
         return Array.Exists<int>(new int[] { 4 }, i => i == currentScaffolding)
@@ -527,6 +539,18 @@ public class ScaffoldMap
     {
         SolidGroundMap[(int)position.x][(int)position.y][(int)position.z] = 
             !SolidGroundMap[(int)position.x][(int)position.y][(int)position.z];
+    }
+
+    /// <summary>
+    /// adds a blockade to prevent movement between the given space and the
+    /// second space determined by the offset.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="secondPosOffset"></param>
+    public void AddBlockade(Vector3 position, Vector3 secondPosOffset)
+    {
+        movementBlockades.Add(new Vector3[] { position, position + 
+            secondPosOffset });
     }
 
     #endregion

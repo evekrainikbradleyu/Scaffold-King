@@ -15,6 +15,7 @@ using System.Linq.Expressions;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 using System.Collections.Generic;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
         float timeElapsed = 0;
 
         // if player would move up past the top, they win the game 
-        if (playerYLayer > mapController.MapHeight - 1)
+        if (PlayerAtTop())
         {
             WinLevel();
             yield break;
@@ -261,9 +262,39 @@ public class PlayerController : MonoBehaviour
         {
             if (onLadder) // for ladder scaffolds
             {
+                if (BlockAbovePlayer()) { return; }
+
                 StartCoroutine(MoveUp(1, moveSpeed));
             }
         }
+    }
+
+    /// <summary>
+    /// detects if there is a building block above the player blocking 
+    /// the ladder
+    /// </summary>
+    /// <returns>true if the player is under a block</returns>
+    private bool BlockAbovePlayer()
+    {
+        if (PlayerAtTop()) { return false; }
+
+        if (scaffoldingController.GetScaffoldPlacement(GetPlayerPosition(),
+            offset: Vector3.right) == null) {  return false; }
+
+        if (scaffoldingController.GetScaffoldPlacement(GetPlayerPosition(), 
+            offset: Vector3.right).CompareTag("BuildingBlock")) 
+        { return true; }
+
+        return false;
+    }
+
+    /// <summary>
+    /// returns true if player is at the top
+    /// </summary>
+    /// <returns>true if player is at the top</returns>
+    private bool PlayerAtTop() 
+    {
+        return playerYLayer >= mapController.MapHeight - 1;
     }
 
     /// <summary>

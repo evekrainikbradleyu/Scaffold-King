@@ -303,15 +303,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldTypes.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: ghostScaffolds.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldTypes.Array.data[4]'
@@ -322,6 +322,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 641061529982357708, guid: af9d93acf7a3cbd478ef8801a5d815a1, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldTypes.Array.data[6]'
+      value: 
+      objectReference: {fileID: 860947718798889199, guid: 1bc0b72e3ce360f4ca12f5bfd802b8b2, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldTypes.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2089934726142657567, guid: 822f5a43d70e0614893c39b23e62cf4e, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[4]'
       value: 
       objectReference: {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
@@ -329,6 +337,14 @@ PrefabInstance:
       propertyPath: 'ghostScaffolds.Array.data[5]'
       value: 
       objectReference: {fileID: 6217557965275253755, guid: 12dba9162b39eaa4396209bfc3fd05f4, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'ghostScaffolds.Array.data[6]'
+      value: 
+      objectReference: {fileID: 7838629663759661790, guid: c0050adca62e6fd4198ab387eefb9fb8, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'ghostScaffolds.Array.data[7]'
+      value: 
+      objectReference: {fileID: 3316971387975624063, guid: 554971fae3893414ba96db4f22d82acb, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[0].y
       value: 10
@@ -361,9 +377,29 @@ PrefabInstance:
       propertyPath: scaffoldRarities.Array.data[5].y
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[6].x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[6].y
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[7].x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[7].y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 395314080500776264, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: mapHeight
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldIcons.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldIcons.Array.data[4]'
@@ -373,6 +409,14 @@ PrefabInstance:
       propertyPath: 'scaffoldIcons.Array.data[5]'
       value: 
       objectReference: {fileID: 2800000, guid: 6583985c01e8c584885c374130e71364, type: 3}
+    - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldIcons.Array.data[6]'
+      value: 
+      objectReference: {fileID: 2800000, guid: a581237834aec1345b68f30823c9f96a, type: 3}
+    - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldIcons.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 69c87d85a09f7774dbf8b7c18ca29111, type: 3}
     - target: {fileID: 5673136612942997891, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: m_Name
       value: Services
@@ -384,6 +428,10 @@ PrefabInstance:
     - target: {fileID: 6326864905173828664, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6409090231500320548, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575282382089709613, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: m_LocalPosition.x

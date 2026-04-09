@@ -127,6 +127,14 @@ public class CameraController : MonoBehaviour
             position.x, 1 + player.transform.position.y / 2, cameraTrack.
             transform.position.z);
 
+        if (cameraTrack.transform.position.y < player.transform.position.y - 3 
+            )
+        {
+            cameraTrack.transform.position = new Vector3(cameraTrack.transform.
+                position.x, player.transform.position.y - 3, cameraTrack.
+                transform.position.z);
+        }
+
         transform.LookAt(cameraTrack.transform);
     }
 

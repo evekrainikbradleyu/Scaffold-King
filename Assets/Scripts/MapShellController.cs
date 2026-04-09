@@ -102,6 +102,8 @@ public class MapController
         {
             MapLayerHeights.Add(mapStartHeight + (i * YLayerDelta));
         }
+
+        SetWallHeights(shell);
     }
 
     #endregion
@@ -208,6 +210,26 @@ public class MapController
 
         return output;
         
+    }
+
+    private void SetWallHeights(GameObject shell)
+    {
+
+        foreach (Transform wall in shell.transform.Find("Walls"))
+        {
+            wall.localScale = new Vector3
+            (
+                wall.localScale.x,
+                mapHeight * 1.6f + 0.7f,
+                wall.localScale.z
+            );
+            wall.position = new Vector3
+            (
+                wall.position.x,
+                mapHeight * 0.8f,
+                wall.position.z
+            );
+        }
     }
 
     #endregion
