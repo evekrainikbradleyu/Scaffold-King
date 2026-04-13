@@ -36,6 +36,8 @@ public class ScaffoldingController : MonoBehaviour
     [SerializeField] private GameObject[] ghostScaffolds;
     [SerializeField] private GameObject scaffoldFiller;
     [SerializeField] private GameObject scaffoldFillerWithSpot;
+    [SerializeField] private int startingScaffoldingCount;
+    [SerializeField] private int scaffoldingPerRefill;
 
     #endregion
 
@@ -50,6 +52,8 @@ public class ScaffoldingController : MonoBehaviour
         mapController = mapShellController.shellController;
 
         map = new ScaffoldMap(mapController);
+
+        scaffoldingRemaining = startingScaffoldingCount;
 
         currentScaffolding = 1;
         nextScaffolding = GetNextScaffolding();
@@ -256,11 +260,12 @@ public class ScaffoldingController : MonoBehaviour
     /// 5. two way scaffolds 
     /// 6. building blocks
     /// 7. corner scaffolds
+    /// 8. refill scaffolds
     /// </summary>
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1, 3, 5, 6, 7 }, i => i ==
+        return Array.Exists<int>(new int[] { 0, 1, 3, 5, 6, 7, 8 }, i => i ==
             currentScaffolding);
     }
 
@@ -480,6 +485,20 @@ public class ScaffoldingController : MonoBehaviour
 
         // else
         return true;
+    }
+
+    /// <summary>
+    /// function to call in PlayerController when the player collects from a 
+    /// refill scaffold.
+    /// </summary>
+    /// <param name="refillSpace">reference to the space of the player</param>
+    public void RefillScaffolding(Vector3 refillSpace)
+    {
+        scaffoldingRemaining += scaffoldingPerRefill;
+
+        Destroy(GetScaffoldPlacement(refillSpace).GetComponent("BoxCollider"));
+        Destroy(GetScaffoldPlacement(refillSpace).transform.Find("boxes").
+            gameObject);
     }
 
     #endregion

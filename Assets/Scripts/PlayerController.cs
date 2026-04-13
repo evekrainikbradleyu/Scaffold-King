@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool playerOnSolidGround;
     private bool interactOutput;
     private bool onConveyor;
+    private bool onRefill;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -265,6 +266,13 @@ public class PlayerController : MonoBehaviour
                 if (BlockAbovePlayer()) { return; }
 
                 StartCoroutine(MoveUp(1, moveSpeed));
+            }
+
+            if (onRefill)
+            {
+                onRefill = false;
+
+                scaffoldingController.RefillScaffolding(GetPlayerPosition());
             }
         }
     }
@@ -596,13 +604,19 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("entered collider");
 
-        if (other.gameObject.CompareTag("Ladder"))
+        switch (other.gameObject.tag)
         {
-            onLadder = true;
-        }
-        else if (other.gameObject.CompareTag("Conveyor"))
-        {
-            onConveyor = true;
+            case "Ladder":
+                onLadder = true;
+                break;
+
+            case "Conveyor":
+                onConveyor = true;
+                break;
+
+            case "Refill":
+                onRefill = true;
+                break;
         }
     }
 
@@ -612,13 +626,19 @@ public class PlayerController : MonoBehaviour
     /// <param name="other">space collider</param>
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Ladder"))
+        switch (other.gameObject.tag)
         {
-            onLadder = false;
-        }
-        else if (other.gameObject.CompareTag("Conveyor"))
-        {
-            onConveyor = false;
+            case "Ladder":
+                onLadder = false;
+                break;
+
+            case "Conveyor":
+                onConveyor = false;
+                break;
+
+            case "Refill":
+                onRefill = false;
+                break;
         }
     }
 

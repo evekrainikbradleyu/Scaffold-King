@@ -9,6 +9,7 @@ TagManager:
   - Conveyor
   - SpotFiller
   - BuildingBlock
+  - Refill
   layers:
   - Default
   - TransparentFX
