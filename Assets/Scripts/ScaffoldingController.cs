@@ -261,12 +261,13 @@ public class ScaffoldingController : MonoBehaviour
     /// 6. building blocks
     /// 7. corner scaffolds
     /// 8. refill scaffolds
+    /// 9. key scaffolds
     /// </summary>
     /// <returns>true if the scaffold is 1x1x1</returns>
     private bool ScaffoldIs1x1()
     {
-        return Array.Exists<int>(new int[] { 0, 1, 3, 5, 6, 7, 8 }, i => i ==
-            currentScaffolding);
+        return Array.Exists<int>(new int[] { 0, 1, 3, 5, 6, 7, 8, 9 }, 
+            i => i == currentScaffolding);
     }
 
     /// <summary>
@@ -499,6 +500,18 @@ public class ScaffoldingController : MonoBehaviour
         Destroy(GetScaffoldPlacement(refillSpace).GetComponent("BoxCollider"));
         Destroy(GetScaffoldPlacement(refillSpace).transform.Find("boxes").
             gameObject);
+    }
+
+    /// <summary>
+    /// function to call in PlayerController when the player collects a key
+    /// </summary>
+    /// <param name="collectSpace">reference to the space of the player</param>
+    public void CollectKey(Vector3 collectSpace)
+    {
+        Destroy(GetScaffoldPlacement(collectSpace, Vector3.left).GetComponent(
+            "BoxCollider"));
+        Destroy(GetScaffoldPlacement(collectSpace, Vector3.left).transform.Find
+            ("key").gameObject);
     }
 
     #endregion

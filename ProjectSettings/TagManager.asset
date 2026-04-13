@@ -10,6 +10,7 @@ TagManager:
   - SpotFiller
   - BuildingBlock
   - Refill
+  - ElevatorKey
   layers:
   - Default
   - TransparentFX

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     // publics
     public int playerYLayer;
+    public int keyCount;
 
     // privates
     private MapController mapController;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool interactOutput;
     private bool onConveyor;
     private bool onRefill;
+    private bool onKey;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
         onLadder = false;
         playerYLayer = 0;
         ghostScaffold = null;
+        keyCount = 0;
 
         // set player to start position
         transform.position = new Vector3
@@ -274,6 +277,13 @@ public class PlayerController : MonoBehaviour
 
                 scaffoldingController.RefillScaffolding(GetPlayerPosition());
             }
+        }
+
+        if (onKey)
+        {
+            onKey = false;
+            keyCount++;
+            scaffoldingController.CollectKey(GetPlayerPosition());
         }
     }
 
@@ -617,6 +627,10 @@ public class PlayerController : MonoBehaviour
             case "Refill":
                 onRefill = true;
                 break;
+
+            case "ElevatorKey":
+                onKey = true;
+                break;
         }
     }
 
@@ -638,6 +652,10 @@ public class PlayerController : MonoBehaviour
 
             case "Refill":
                 onRefill = false;
+                break;
+
+            case "ElevatorKey":
+                onKey = false;
                 break;
         }
     }

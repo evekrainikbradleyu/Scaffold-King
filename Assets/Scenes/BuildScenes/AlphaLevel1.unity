@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldTypes.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: startingScaffoldingCount
@@ -315,11 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: ghostScaffolds.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldTypes.Array.data[4]'
@@ -342,6 +342,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3274524297046457778, guid: 1d705b297daf2224c98f2688211b0b1c, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldTypes.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2080768474130313868, guid: a1f9902309fccdf43bd2f2cb8e5f9aec, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[4]'
       value: 
       objectReference: {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
@@ -352,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[6]'
       value: 
-      objectReference: {fileID: 7838629663759661790, guid: c0050adca62e6fd4198ab387eefb9fb8, type: 3}
+      objectReference: {fileID: 453868581807253120, guid: bff5b43ed66ba3a44a251ee07176ab70, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'ghostScaffolds.Array.data[7]'
       value: 
@@ -361,6 +365,10 @@ PrefabInstance:
       propertyPath: 'ghostScaffolds.Array.data[8]'
       value: 
       objectReference: {fileID: 3762034390672821208, guid: 3461e1e1e915352488fb54dbc0381918, type: 3}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'ghostScaffolds.Array.data[9]'
+      value: 
+      objectReference: {fileID: 7243735177279228836, guid: 4090354859ba9ce4fa59707c2f926347, type: 3}
     - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldRarities.Array.data[0].y
       value: 10
@@ -417,13 +425,21 @@ PrefabInstance:
       propertyPath: scaffoldRarities.Array.data[8].y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[9].x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 126401570096256995, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: scaffoldRarities.Array.data[9].y
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 395314080500776264, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: mapHeight
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: scaffoldIcons.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: 'scaffoldIcons.Array.data[4]'
@@ -445,6 +461,10 @@ PrefabInstance:
       propertyPath: 'scaffoldIcons.Array.data[8]'
       value: 
       objectReference: {fileID: 2800000, guid: a8f68bc12ef59f946adbc8e879968f8c, type: 3}
+    - target: {fileID: 4107772125631309180, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
+      propertyPath: 'scaffoldIcons.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2800000, guid: d52034b469050bd4892b04ac4d5de7ba, type: 3}
     - target: {fileID: 5673136612942997891, guid: 5ef615a2699e83e4d8fcb3ea2f88cfbd, type: 3}
       propertyPath: m_Name
       value: Services
