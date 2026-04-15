@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     // privates
     private MapController mapController;
+    private ElevatorController currentElevatorController;
     private InputAction move;
     private InputAction leftClick;
     private InputAction interact;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool onConveyor;
     private bool onRefill;
     private bool onKey;
+    private bool onElevator;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
         playerYLayer = 0;
         ghostScaffold = null;
         keyCount = 0;
+        scaffoldingController.playerController = this;
 
         // set player to start position
         transform.position = new Vector3
@@ -208,7 +211,24 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region miscellaneous functions
+    #region public functions
+
+    /// <summary>
+    /// returns the current position of the player in the scaffold placement
+    /// grid
+    /// </summary>
+    /// <returns>the current position of the player in the scaffold placement
+    /// grid</returns>
+    public Vector3 GetPlayerPosition()
+    {
+        return new Vector3(playerYLayer, mapShellController.shellController.
+            GetVectorFromSpace(currentSpace).x, mapShellController.
+            shellController.GetVectorFromSpace(currentSpace).y);
+    }
+
+    #endregion
+
+    #region private functions
 
     /// <summary>
     /// checks to make sure move output is there and the player isnt already 
@@ -262,6 +282,7 @@ public class PlayerController : MonoBehaviour
         // prevents interaction if the player is moving
         if (movingPlayer) { return; }
 
+        // does only if interaction button is held
         if (interactOutput)
         {
             if (onLadder) // for ladder scaffolds
@@ -277,14 +298,24 @@ public class PlayerController : MonoBehaviour
 
                 scaffoldingController.RefillScaffolding(GetPlayerPosition());
             }
+
+            if (onElevator)
+            {
+                if (currentElevatorController.elevatorLocked) { return; }
+
+                StartCoroutine(MoveUp(2, moveSpeed));
+                currentElevatorController.StartElevator(1, moveSpeed);
+            }
         }
 
+        // does automatically if player is immobile on the scaffold
         if (onKey)
         {
             onKey = false;
             keyCount++;
             scaffoldingController.CollectKey(GetPlayerPosition());
         }
+
     }
 
     /// <summary>
@@ -487,18 +518,7 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-    /// <summary>
-    /// returns the current position of the player in the scaffold placement
-    /// grid
-    /// </summary>
-    /// <returns>the current position of the player in the scaffold placement
-    /// grid</returns>
-    private Vector3 GetPlayerPosition()
-    {
-        return new Vector3(playerYLayer, mapShellController.shellController.
-            GetVectorFromSpace(currentSpace).x, mapShellController.
-            shellController.GetVectorFromSpace(currentSpace).y);
-    }
+
 
     /// <summary>
     /// makes conveyors move the player
@@ -570,15 +590,17 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// returns true if ladder placement needs to be prevented (eg ladder 
-    /// placement is useless or on another ladder)
+    /// placement is useless or on another ladder). also prevents elevator 
+    /// placement.
     /// </summary>
     /// <param name="hit">raycasthit from place function</param>
     /// <returns>true if ladder placement should be prevented</returns>
     private bool PreventLadderPlacement(RaycastHit hit)
     {
-        return (hit.collider.transform.parent.CompareTag("Ladder") || hit.
-            collider.transform.parent.CompareTag("Conveyor")) && 
-            scaffoldingController.currentScaffolding == 1;
+        return (Array.Exists<string>(new string[] {"Ladder", "Conveyor", 
+            "Elevator"}, i => i == hit.collider.transform.parent.tag) && Array.
+            Exists<int>(new int[] { 1, 10 },  i => i == scaffoldingController.
+            currentScaffolding));
     }
 
     private bool PlayerPathBlocked(GameObject targetSpace)
@@ -631,6 +653,18 @@ public class PlayerController : MonoBehaviour
             case "ElevatorKey":
                 onKey = true;
                 break;
+
+            case "Elevator":
+                onElevator = true;
+                currentElevatorController = other.gameObject.GetComponent<
+                    ElevatorController>();
+                // unlock elevator if its locked and keys are available
+                if (keyCount > 0 && currentElevatorController.elevatorLocked)
+                {
+                    currentElevatorController.UnlockElevator();
+                    keyCount--;
+                }
+                break;
         }
     }
 
@@ -656,6 +690,10 @@ public class PlayerController : MonoBehaviour
 
             case "ElevatorKey":
                 onKey = false;
+                break;
+
+            case "Elevator":
+                onElevator = false;
                 break;
         }
     }

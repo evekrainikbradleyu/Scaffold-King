@@ -11,6 +11,8 @@ TagManager:
   - BuildingBlock
   - Refill
   - ElevatorKey
+  - Elevator
+  - ElevatorTop
   layers:
   - Default
   - TransparentFX
