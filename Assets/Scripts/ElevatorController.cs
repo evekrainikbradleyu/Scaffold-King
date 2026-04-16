@@ -47,6 +47,14 @@ public class ElevatorController : MonoBehaviour
         elevatorMoving = false;
     }
 
+    private void Update()
+    {
+        if (playerController == null)
+        {
+            playerController = scaffoldingController.playerController;
+        }
+    }
+
     #endregion
 
     #region coroutines

@@ -48,7 +48,7 @@ public class ScaffoldingController : MonoBehaviour
     #region start
 
     /// <summary>
-    /// makes the map and sets up the current and nexxt scaffold. also sets 
+    /// makes the map and sets up the current and next scaffold. also sets 
     /// variables.
     /// </summary>
     private void Start()
@@ -141,12 +141,17 @@ public class ScaffoldingController : MonoBehaviour
                     dirs = null;
                     break;
                 case 7:
-                    int blockDir = placeDirection;
-                    dirs = new Vector3[] { Vector3.up, Vector3.back, 
-                        Vector3.down, Vector3.forward };
-                    map.AddBlockade(position, dirs[blockDir]);
-                    blockDir = blockDir == 3 ? 0 : blockDir + 1;
-                    map.AddBlockade(position, dirs[blockDir]);
+
+                    Transform scaffoldTransform = GetScaffoldPlacement(position
+                        ).transform;
+
+                    Vector3 dirA = scaffoldTransform.forward;
+                    Vector3 dirB = -scaffoldTransform.right;
+
+                    map.AddBlockade(position, new Vector3(0, Mathf.Round(dirA.z
+                        ), Mathf.Round(dirA.x)));
+                    map.AddBlockade(position, new Vector3(0, Mathf.Round(dirB.z
+                        ), Mathf.Round(dirB.x)));
                     break;
             }
         }
@@ -624,6 +629,93 @@ public class ScaffoldingController : MonoBehaviour
                 PlaceScaffolding(19, 3, 0, 6);
                 PlaceScaffolding(20, 5, 1, 8);
 
+                // two corner scaffolds next to refill to teach player what 
+                // they are
+
+                placeDirection = 2;
+                PlaceScaffolding(20, 5, 2, 7);
+                placeDirection++;
+                PlaceScaffolding(20, 5, 0, 7);
+                placeDirection = 0;
+
+                // other random bits of terrain
+
+                PlaceScaffolding(5, 1, 0, 6);
+                PlaceScaffolding(5, 0, 1, 6);
+                PlaceScaffolding(5, 0, 0, 6);
+                PlaceScaffolding(6, 0, 0, 6);
+                PlaceScaffolding(15, 5, 5, 6);
+                PlaceScaffolding(15, 4, 5, 6);
+                PlaceScaffolding(16, 5, 5, 6);
+                PlaceScaffolding(23, 0, 4, 6);
+                PlaceScaffolding(23, 0, 3, 6);
+
+                break;
+            case 2:
+
+                // ground spikes
+                PlaceScaffolding(0, 4, 4, 6);
+                PlaceScaffolding(1, 4, 4, 6);
+                PlaceScaffolding(2, 4, 4, 6);
+                PlaceScaffolding(3, 4, 4, 6);
+                PlaceScaffolding(4, 4, 4, 6);
+                PlaceScaffolding(0, 4, 3, 6);
+                PlaceScaffolding(0, 3, 4, 6);
+
+                PlaceScaffolding(0, 1, 3, 6);
+                PlaceScaffolding(1, 1, 3, 6);
+                PlaceScaffolding(2, 1, 3, 6);
+                PlaceScaffolding(3, 1, 3, 6);
+                PlaceScaffolding(0, 1, 2, 6);
+
+                PlaceScaffolding(0, 3, 1, 6);
+                PlaceScaffolding(1, 3, 1, 6);
+                PlaceScaffolding(2, 3, 1, 6);
+                PlaceScaffolding(0, 3, 2, 6);
+
+                // first refill
+
+                PlaceScaffolding(8, 5, 2, 6);
+                PlaceScaffolding(8, 5, 1, 6);
+                PlaceScaffolding(8, 5, 0, 6);
+                PlaceScaffolding(9, 5, 4, 6);
+                PlaceScaffolding(9, 5, 3, 6);
+                PlaceScaffolding(9, 5, 2, 6);
+                PlaceScaffolding(9, 5, 1, 6);
+                PlaceScaffolding(9, 5, 0, 6);
+                PlaceScaffolding(9, 4, 3, 6);
+                PlaceScaffolding(9, 4, 2, 6);
+                PlaceScaffolding(9, 4, 1, 6);
+                PlaceScaffolding(9, 4, 0, 6);
+                PlaceScaffolding(10, 5, 2, 8);
+
+                // elevator + key to teach player how to use them
+
+                PlaceScaffolding(10, 5, 3, 10);
+                PlaceScaffolding(10, 5, 1, 9);
+                PlaceScaffolding(10, 5, 0, 1);
+
+                // terrain between refills 1 and 2
+
+                PlaceScaffolding(14, 1, 2, 6);
+                PlaceScaffolding(14, 1, 1, 6);
+                PlaceScaffolding(14, 1, 0, 6);
+                PlaceScaffolding(14, 2, 2, 6);
+
+                PlaceScaffolding(15, 2, 3, 6);
+                PlaceScaffolding(15, 2, 2, 6);
+
+                PlaceScaffolding(16, 3, 5, 6);
+                PlaceScaffolding(16, 3, 4, 6);
+                PlaceScaffolding(16, 3, 3, 6);
+
+                // second refill
+
+                PlaceScaffolding(19, 1, 5, 6);
+                PlaceScaffolding(19, 0, 5, 6);
+                PlaceScaffolding(19, 0, 4, 6);
+                PlaceScaffolding(20, 0, 5, 8);
+
                 break;
         }
     }
@@ -688,11 +780,11 @@ public class ScaffoldingController : MonoBehaviour
                             new Vector2(0, 1),
                             new Vector2(1, 8),
                             new Vector2(2, 1),
-                            new Vector2(3, 9),
+                            new Vector2(3, 0),
                             new Vector2(4, 5),
-                            new Vector2(5, 0),
+                            new Vector2(5, 4),
                             new Vector2(6, 0),
-                            new Vector2(7, 0),
+                            new Vector2(7, 5),
                             new Vector2(8, 0),
                             new Vector2(9, 0),
                             new Vector2(10, 0)
@@ -701,6 +793,71 @@ public class ScaffoldingController : MonoBehaviour
 
                         break;
                 }
+                break;
+            case 2:
+                switch (levelSection)
+                {
+                    case 1:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 0),
+                            new Vector2(1, 8),
+                            new Vector2(2, 1),
+                            new Vector2(3, 2),
+                            new Vector2(4, 4),
+                            new Vector2(5, 2),
+                            new Vector2(6, 0),
+                            new Vector2(7, 2),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 2:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 6),
+                            new Vector2(1, 8),
+                            new Vector2(2, 2),
+                            new Vector2(3, 0),
+                            new Vector2(4, 4),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 4),
+                            new Vector2(10, 3)
+
+                        };
+
+                        break;
+
+                    case 3:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 4),
+                            new Vector2(1, 5),
+                            new Vector2(2, 2),
+                            new Vector2(3, 0),
+                            new Vector2(4, 5),
+                            new Vector2(5, 2),
+                            new Vector2(6, 0),
+                            new Vector2(7, 2),
+                            new Vector2(8, 0),
+                            new Vector2(9, 7),
+                            new Vector2(10, 5)
+
+                        };
+
+                        break;
+                }
+
                 break;
         }
     }
