@@ -480,6 +480,10 @@ PrefabInstance:
       propertyPath: mapShellController
       value: 
       objectReference: {fileID: 395314080500776264}
+    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
+      propertyPath: scaffoldingPerRefill
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -553,6 +557,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4911443501972915950, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
+      propertyPath: cameraController
+      value: 
+      objectReference: {fileID: 5963245361980618507}
     - target: {fileID: 4911443501972915950, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
       propertyPath: playerController
       value: 

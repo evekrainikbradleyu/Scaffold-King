@@ -7,6 +7,7 @@
 // click.
 *****************************************************************************/
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,17 @@ public class SceneSender : MonoBehaviour
     /// </summary>
     public void SendToScene()
     {
-        SceneManager.LoadScene(nextScene);
+        if (nextScene == -1)
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+        else
+        {
+            SceneManager.LoadScene(nextScene);
+        }
     }
 }

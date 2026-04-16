@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private bool onRefill;
     private bool onKey;
     private bool onElevator;
+    private bool playerHasMoved;
+    private bool playerHasPlacedScaffolding;
+    private bool playerHasUsedLadder;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -76,6 +79,9 @@ public class PlayerController : MonoBehaviour
         ghostScaffold = null;
         keyCount = 0;
         scaffoldingController.playerController = this;
+        playerHasMoved = false;
+        playerHasPlacedScaffolding = false;
+        playerHasUsedLadder = false;
 
         // set player to start position
         transform.position = new Vector3
@@ -132,6 +138,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator MovePlayer(GameObject destination, float moveTime)
     {
         if (PlayerPathBlocked(destination)) { yield break; }
+
+        if (!playerHasMoved) { playerHasMoved = true; }
 
         // gets positions to move to and sets timer
         Vector3 destinationPosition = destination.transform.position;
@@ -226,6 +234,33 @@ public class PlayerController : MonoBehaviour
             shellController.GetVectorFromSpace(currentSpace).y);
     }
 
+    /// <summary>
+    /// checks if player has moved yet
+    /// </summary>
+    /// <returns>true if player has moved yet</returns>
+    public bool PlayerHasMoved()
+    {
+        return playerHasMoved;
+    }
+
+    /// <summary>
+    /// checks if player has placed scaffolding yet
+    /// </summary>
+    /// <returns>true if player has placed scaffolding yet</returns>
+    public bool PlayerHasPlacedScaffolding()
+    {
+        return playerHasPlacedScaffolding;
+    }
+
+    /// <summary>
+    /// checks if player has used a ladder yet
+    /// </summary>
+    /// <returns>true if player has used a ladder yet</returns>
+    public bool PlayerHasUsedLadder()
+    {
+        return playerHasUsedLadder;
+    }
+
     #endregion
 
     #region private functions
@@ -288,6 +323,8 @@ public class PlayerController : MonoBehaviour
             if (onLadder) // for ladder scaffolds
             {
                 if (BlockAbovePlayer()) { return; }
+
+                playerHasUsedLadder = true;
 
                 StartCoroutine(MoveUp(1, moveSpeed));
             }
@@ -411,6 +448,10 @@ public class PlayerController : MonoBehaviour
 
                 // destroys collider to prevent further placement
                 if (!wasPlaced) { return; }
+
+                if (!playerHasPlacedScaffolding) { playerHasPlacedScaffolding =
+                        true; }
+
                 Destroy(hit.collider);
             }
         }

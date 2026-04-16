@@ -47,6 +47,10 @@ public class ElevatorController : MonoBehaviour
         elevatorMoving = false;
     }
 
+    /// <summary>
+    /// sets the player controller if somehow its null (dont ask me why this 
+    /// happens)
+    /// </summary>
     private void Update()
     {
         if (playerController == null)

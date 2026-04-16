@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 using System;
+using System.Collections;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -24,22 +25,29 @@ public class UIController : MonoBehaviour
     // privates
 
     private MapController mapController;
+    private Image blackscreen;
+    private int currentTutorialPanel;
 
     // serialized privates
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private MapShellController mapShellController;
     [SerializeField] private ScaffoldingController scaffoldingController;
+    [SerializeField] private CameraController cameraController;
     [SerializeField] private Slider heightSlider;
     [SerializeField] private TMP_Text playerHeightDisplay;
     [SerializeField] private TMP_Text scaffoldingRemainingDisplay;
     [SerializeField] private TMP_Text keyDisplayText;
     [SerializeField] private RawImage nextScaffold;
     [SerializeField] private RawImage currentScaffold;
+    [SerializeField] private GameObject blackscreenObj;
     [SerializeField] private Texture2D[] scaffoldIcons;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
     [SerializeField] private GameObject keyDisplay;
+    [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject[] tutorialPanels;
+    [SerializeField] private bool isTutorial;
 
     #endregion
 
@@ -56,6 +64,26 @@ public class UIController : MonoBehaviour
         heightSlider.maxValue = mapController.MapHeight;
         heightSlider.enabled = false;
         winPanel.SetActive(false);
+        menu.SetActive(false);
+        currentTutorialPanel = 0;
+
+        blackscreen = blackscreenObj.GetComponent<Image>();
+
+        StartCoroutine(FadeBlackScreen(3, 0));
+
+        if (isTutorial)
+        {
+            tutorialPanels[0].SetActive(true);
+            tutorialPanels[3].transform.Find("next").gameObject.SetActive(false
+                );
+            tutorialPanels[4].transform.Find("next").gameObject.SetActive(false
+                );
+            tutorialPanels[5].transform.Find("next").gameObject.SetActive(false
+                );
+            tutorialPanels[6].transform.Find("next").gameObject.SetActive(false
+                );
+        }
+
     }
 
     /// <summary>
@@ -69,6 +97,94 @@ public class UIController : MonoBehaviour
         UpdateScaffoldDisplays();
         UpdateKeyDisplay();
         CheckForLoss();
+
+        if (isTutorial)
+        {
+            if (cameraController.PlayerHasTurnedCamera() && !tutorialPanels[3].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[3].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasMoved() && !tutorialPanels[4].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[4].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasPlacedScaffolding() && !
+                tutorialPanels[5].transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[5].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasUsedLadder() && !tutorialPanels[6].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[6].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+        }
+    }
+
+    #endregion
+
+    #region coroutines
+
+    /// <summary>
+    /// coroutine to fade the blackscreen
+    /// </summary>
+    /// <param name="fadeTime">time the fade should take</param>
+    /// <param name="endAlpha">alpha value for screen to end on</param>
+    /// <returns>yields null</returns>
+    private IEnumerator FadeBlackScreen(float fadeTime, float endAlpha)
+    {
+        blackscreen.gameObject.SetActive(true);
+
+        float elapsedTime = 0;
+        float startAlpha = blackscreen.color.a;
+
+        while (elapsedTime < fadeTime)
+        {
+            blackscreen.color = new Color
+            (
+                blackscreen.color.r,
+                blackscreen.color.g,
+                blackscreen.color.b,
+                Mathf.Lerp(startAlpha, endAlpha, elapsedTime / fadeTime)
+            );
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        blackscreen.color = new Color
+        (
+            blackscreen.color.r,
+            blackscreen.color.g,
+            blackscreen.color.b,
+            endAlpha
+        );
+
+        blackscreen.gameObject.SetActive(endAlpha != 0);
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// does the blackscreen fade at the end and times the win panel to open 
+    /// slightly after
+    /// </summary>
+    /// <returns>yields null</returns>
+    private IEnumerator DoWinFade()
+    {
+        yield return StartCoroutine(FadeBlackScreen(3, 1));
+
+        yield return new WaitForSeconds(0.5f);
+
+        winPanel.SetActive(true);
+        
+        yield return null;
     }
 
     #endregion
@@ -144,7 +260,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void EnableWinPanel()
     {
-        winPanel.SetActive(true);
+        StartCoroutine(DoWinFade());
     }
 
     /// <summary>
@@ -185,6 +301,24 @@ public class UIController : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    /// <summary>
+    /// opens menu
+    /// </summary>
+    public void OpenMenu()
+    {
+        menu.SetActive(!menu.activeSelf);
+    }
+
+    public void NextTutorialPanel()
+    {
+        tutorialPanels[currentTutorialPanel].SetActive(false);
+        currentTutorialPanel++;
+        if (currentTutorialPanel < tutorialPanels.Length)
+        {
+            tutorialPanels[currentTutorialPanel].SetActive(true);
+        }
     }
 
     #endregion

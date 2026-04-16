@@ -60,8 +60,7 @@ public class ScaffoldingController : MonoBehaviour
         scaffoldingRemaining = startingScaffoldingCount;
 
         currentScaffolding = 1;
-        nextScaffolding = GetNextScaffolding();
-
+        
         placing = false;
 
         placeDirection = 0;
@@ -70,6 +69,8 @@ public class ScaffoldingController : MonoBehaviour
         ChangeRarities();
 
         SetUpLevel();
+
+        nextScaffolding = GetNextScaffolding();
     }
 
     #endregion
@@ -598,11 +599,40 @@ public class ScaffoldingController : MonoBehaviour
             
     }
 
+    /// <summary>
+    /// sets up the terrain and refills depending on the level
+    /// </summary>
     private void SetUpLevel()
     {
         switch (level)
         {
             case 0:
+
+                // most scaffolding (level is 8 tall)
+
+                PlaceScaffolding(0, 4, 0, 0);
+                PlaceScaffolding(0, 5, 5, 2);
+                PlaceScaffolding(0, 5, 4, 2);
+                PlaceScaffolding(0, 5, 3, 2);
+                PlaceScaffolding(0, 5, 2, 2);
+                PlaceScaffolding(0, 5, 1, 2);
+                PlaceScaffolding(0, 5, 0, 2);
+                PlaceScaffolding(0, 4, 5, 2);
+                PlaceScaffolding(0, 3, 5, 2);
+                PlaceScaffolding(0, 2, 5, 2);
+                PlaceScaffolding(0, 4, 4, 2);
+                PlaceScaffolding(0, 3, 4, 2);
+                PlaceScaffolding(0, 2, 4, 2);
+                PlaceScaffolding(2, 5, 5, 0);
+                PlaceScaffolding(2, 4, 5, 0);
+                PlaceScaffolding(2, 3, 5, 0);
+                PlaceScaffolding(2, 2, 5, 0);
+                PlaceScaffolding(2, 5, 4, 0);
+                PlaceScaffolding(2, 4, 4, 0);
+                PlaceScaffolding(2, 3, 4, 0);
+                PlaceScaffolding(2, 2, 4, 0);
+                PlaceScaffolding(3, 3, 5, 8);
+
                 break;
             case 1:
 
@@ -723,13 +753,56 @@ public class ScaffoldingController : MonoBehaviour
     /// <summary>
     /// change scaffold rarities upon refill depending on the level.
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
     private void ChangeRarities()
     {
         levelSection++;
 
         switch (level)
         {
+            case 0:
+                switch (levelSection)
+                {
+                    case 1:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 0),
+                            new Vector2(1, 1),
+                            new Vector2(2, 0),
+                            new Vector2(3, 0),
+                            new Vector2(4, 0),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 2:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 4),
+                            new Vector2(1, 5),
+                            new Vector2(2, 1),
+                            new Vector2(3, 0),
+                            new Vector2(4, 1),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+                }
+                break;
             case 1:
                 switch (levelSection)
                 {

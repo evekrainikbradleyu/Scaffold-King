@@ -28,6 +28,7 @@ public class CameraController : MonoBehaviour
     private Vector2 mouseDelta;
     private float mouseXDelta;
     private float mouseYDelta;
+    private bool playerHasTurnedCamera;
 
     // serialized privates
     [SerializeField] private GameObject cameraTrack;
@@ -49,6 +50,7 @@ public class CameraController : MonoBehaviour
         cameraOffset = transform.position - cameraTrack.transform.position;
         rightMouseButtonDown = false;
         yOffset = transform.position.y-player.transform.position.y;
+        playerHasTurnedCamera = false;
 
         rightClick = InputSystem.actions.FindAction("Right Click");
 
@@ -70,6 +72,8 @@ public class CameraController : MonoBehaviour
         // rotates camera with cursor while holding right click
         if (rightMouseButtonDown)
         {
+            playerHasTurnedCamera = true;
+
             transform.RotateAround(cameraTrack.transform.position, Vector3.up, 
                 cameraRotateSpeed * mouseXDelta);
         }
@@ -108,7 +112,7 @@ public class CameraController : MonoBehaviour
 
     #endregion
 
-    #region miscellaneous functions
+    #region private functions
 
     /// <summary>
     /// makes camera follow player up and down
@@ -143,6 +147,15 @@ public class CameraController : MonoBehaviour
         mouseDelta = Mouse.current.delta.ReadValue();
         mouseXDelta = mouseDelta.x;
         mouseYDelta = mouseDelta.y;
+    }
+
+    #endregion
+
+    #region public functions
+
+    public bool PlayerHasTurnedCamera()
+    {
+        return playerHasTurnedCamera;
     }
 
     #endregion
