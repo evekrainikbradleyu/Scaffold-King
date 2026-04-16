@@ -31,6 +31,7 @@ public class ScaffoldingController : MonoBehaviour
     // privates
     private MapController mapController;
     private int placeDirection;
+    private int levelSection;
 
     // serialized privates
     [SerializeField] private MapShellController mapShellController;
@@ -40,6 +41,7 @@ public class ScaffoldingController : MonoBehaviour
     [SerializeField] private GameObject scaffoldFillerWithSpot;
     [SerializeField] private int startingScaffoldingCount;
     [SerializeField] private int scaffoldingPerRefill;
+    [SerializeField] private int level;
 
     #endregion
 
@@ -63,6 +65,11 @@ public class ScaffoldingController : MonoBehaviour
         placing = false;
 
         placeDirection = 0;
+
+        levelSection = 0;
+        ChangeRarities();
+
+        SetUpLevel();
     }
 
     #endregion
@@ -224,6 +231,18 @@ public class ScaffoldingController : MonoBehaviour
     }
 
     /// <summary>
+    /// overload for placing terrain
+    /// </summary>
+    /// <param name="x">xpos</param>
+    /// <param name="y">ypos</param>
+    /// <param name="z">zpos</param>
+    /// <param name="forceScaffolding">scaffolding type</param>
+    public void PlaceScaffolding(int x, int y, int z, int forceScaffolding)
+    {
+        PlaceScaffolding(new Vector3(x,y,z), forceScaffolding);
+    }
+
+    /// <summary>
     /// used to place ghost scaffolding exclusively; very similar to normal
     /// place function.
     /// </summary>
@@ -291,7 +310,11 @@ public class ScaffoldingController : MonoBehaviour
         Destroy(GetScaffoldPlacement(refillSpace).GetComponent("BoxCollider"));
         Destroy(GetScaffoldPlacement(refillSpace).transform.Find("boxes").
             gameObject);
+
+        ChangeRarities();
     }
+
+
 
     /// <summary>
     /// function to call in PlayerController when the player collects a key
@@ -438,15 +461,24 @@ public class ScaffoldingController : MonoBehaviour
             }
             else
             {
-                if (GetScaffoldPlacement(position, offset: Vector3.left).
-                    transform.Find("ScaffoldSpot").GetComponent<BoxCollider>())
+                var lowerScaffold = GetScaffoldPlacement(position, offset: 
+                    Vector3.left);
+
+                if (lowerScaffold != null)
                 {
-                    Destroy(GetScaffoldPlacement(position, offset: Vector3.left
-                        ).transform.Find("ScaffoldSpot").GetComponent<
-                        BoxCollider>());
+                    var spot = lowerScaffold.transform.Find("ScaffoldSpot");
+
+                    if (spot != null)
+                    {
+                        var collider = spot.GetComponent<BoxCollider>();
+
+                        if (collider != null)
+                        {
+                            Destroy(collider);
+                        }
+                    }
                 }
 
-                
             }
         }
     }
@@ -559,6 +591,118 @@ public class ScaffoldingController : MonoBehaviour
         return scaffoldRanges[UnityEngine.Random.Range(0, scaffoldRanges.Count)
             ];
             
+    }
+
+    private void SetUpLevel()
+    {
+        switch (level)
+        {
+            case 0:
+                break;
+            case 1:
+
+                // first refill
+                PlaceScaffolding(9, 2, 5, 6);
+                PlaceScaffolding(9, 1, 5, 6);
+                PlaceScaffolding(9, 0, 5, 6);
+                PlaceScaffolding(9, 1, 4, 6);
+                PlaceScaffolding(9, 0, 4, 6);
+                PlaceScaffolding(9, 1, 3, 6);
+                PlaceScaffolding(9, 0, 3, 6);
+                PlaceScaffolding(9, 0, 2, 6);
+                PlaceScaffolding(10, 0, 4, 8);
+
+                // second refill
+
+                PlaceScaffolding(19, 5, 3, 6);
+                PlaceScaffolding(19, 5, 2, 6);
+                PlaceScaffolding(19, 5, 1, 6);
+                PlaceScaffolding(19, 5, 0, 6);
+                PlaceScaffolding(19, 4, 2, 6);
+                PlaceScaffolding(19, 4, 1, 6);
+                PlaceScaffolding(19, 4, 0, 6);
+                PlaceScaffolding(19, 3, 0, 6);
+                PlaceScaffolding(20, 5, 1, 8);
+
+                break;
+        }
+    }
+
+    /// <summary>
+    /// change scaffold rarities upon refill depending on the level.
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    private void ChangeRarities()
+    {
+        levelSection++;
+
+        switch (level)
+        {
+            case 1:
+                switch (levelSection)
+                {
+                    case 1:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 4),
+                            new Vector2(1, 5),
+                            new Vector2(2, 1),
+                            new Vector2(3, 0),
+                            new Vector2(4, 1),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 2:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 3),
+                            new Vector2(1, 8),
+                            new Vector2(2, 1),
+                            new Vector2(3, 7),
+                            new Vector2(4, 5),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 3:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 1),
+                            new Vector2(1, 8),
+                            new Vector2(2, 1),
+                            new Vector2(3, 9),
+                            new Vector2(4, 5),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+                }
+                break;
+        }
     }
 
     #endregion

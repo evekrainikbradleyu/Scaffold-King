@@ -46,12 +46,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScaffolding: 0
   nextScaffolding: 0
-  scaffoldingRemaining: 0
+  scaffoldingRemaining: 1
   placing: 0
   scaffoldTypes:
   - {fileID: 6945585332584837214, guid: df4ab56ad3822004fb5054b4b39c7f97, type: 3}
   - {fileID: 6876390027048854984, guid: 661df6342214b104d939f7370411783d, type: 3}
+  - {fileID: 2964136996505743554, guid: 4db98bbf45089dd46b838bcec2366031, type: 3}
+  - {fileID: 5934450744835792943, guid: a63b609b404215a4c878cf7c05a6196d, type: 3}
+  - {fileID: 4363537595909695631, guid: d7c161b9d0ea94341b81396784cff4df, type: 3}
+  - {fileID: 641061529982357708, guid: af9d93acf7a3cbd478ef8801a5d815a1, type: 3}
+  - {fileID: 860947718798889199, guid: 1bc0b72e3ce360f4ca12f5bfd802b8b2, type: 3}
+  - {fileID: 2089934726142657567, guid: 822f5a43d70e0614893c39b23e62cf4e, type: 3}
+  - {fileID: 3274524297046457778, guid: 1d705b297daf2224c98f2688211b0b1c, type: 3}
+  - {fileID: 2080768474130313868, guid: a1f9902309fccdf43bd2f2cb8e5f9aec, type: 3}
+  - {fileID: 7020393768337503134, guid: 0751cc993b989fa47aecdbb112f52001, type: 3}
+  playerController: {fileID: 0}
   mapShellController: {fileID: 0}
-  scaffoldRarities: []
-  ghostScaffolds: []
-  scaffoldFiller: {fileID: 0}
+  scaffoldRarities:
+  - {x: 0, y: 1}
+  - {x: 1, y: 0}
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}
+  - {x: 4, y: 0}
+  - {x: 5, y: 0}
+  - {x: 6, y: 0}
+  - {x: 7, y: 0}
+  - {x: 8, y: 0}
+  - {x: 9, y: 0}
+  - {x: 10, y: 0}
+  ghostScaffolds:
+  - {fileID: 2983555204810130653, guid: c09fb46b5939e854e9a5c73cd8e588c9, type: 3}
+  - {fileID: 8886298796145979715, guid: d3677ea9a61259847b15e30f8c3ef4f5, type: 3}
+  - {fileID: 425347149468895832, guid: b5ab10d6f8b8dc44689da4c59a43865f, type: 3}
+  - {fileID: 7838629663759661790, guid: c0050adca62e6fd4198ab387eefb9fb8, type: 3}
+  - {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
+  - {fileID: 6217557965275253755, guid: 12dba9162b39eaa4396209bfc3fd05f4, type: 3}
+  - {fileID: 453868581807253120, guid: bff5b43ed66ba3a44a251ee07176ab70, type: 3}
+  - {fileID: 3316971387975624063, guid: 554971fae3893414ba96db4f22d82acb, type: 3}
+  - {fileID: 3762034390672821208, guid: 3461e1e1e915352488fb54dbc0381918, type: 3}
+  - {fileID: 7243735177279228836, guid: 4090354859ba9ce4fa59707c2f926347, type: 3}
+  - {fileID: 6071191436244805160, guid: 8af2906e4301b854493d8a2e050346d4, type: 3}
+  scaffoldFiller: {fileID: 273086631577540627, guid: f357273a5c1c66444a6d1ab8035dca42, type: 3}
+  scaffoldFillerWithSpot: {fileID: 4289592733533667508, guid: 276eb3ef954724344ab8887edc73136c, type: 3}
+  startingScaffoldingCount: 75
+  scaffoldingPerRefill: 50
+  level: 0

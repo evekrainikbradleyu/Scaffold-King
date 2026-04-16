@@ -33,11 +33,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider heightSlider;
     [SerializeField] private TMP_Text playerHeightDisplay;
     [SerializeField] private TMP_Text scaffoldingRemainingDisplay;
+    [SerializeField] private TMP_Text keyDisplayText;
     [SerializeField] private RawImage nextScaffold;
     [SerializeField] private RawImage currentScaffold;
     [SerializeField] private Texture2D[] scaffoldIcons;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private GameObject keyDisplay;
 
     #endregion
 
@@ -65,12 +67,13 @@ public class UIController : MonoBehaviour
         UpdateHeightDisplay();
         UpdateScaffoldsRemainingDisplay();
         UpdateScaffoldDisplays();
+        UpdateKeyDisplay();
         CheckForLoss();
     }
 
     #endregion
 
-    #region miscellaneous functions
+    #region private functions
 
     /// <summary>
     /// updates height display
@@ -108,6 +111,32 @@ public class UIController : MonoBehaviour
         currentScaffold.color = scaffoldingController.placing ? new Color(0.78f
             , 0.78f, 0.78f) : Color.white;
     }
+
+    /// <summary>
+    /// updates the key display
+    /// </summary>
+    private void UpdateKeyDisplay()
+    {
+        if (playerController.keyCount == 0)
+        {
+            keyDisplay.SetActive(false);
+        }
+        else
+        {
+            keyDisplay.SetActive(true);
+            keyDisplayText.gameObject.SetActive(false);
+
+            if (playerController.keyCount > 1)
+            {
+                keyDisplayText.gameObject.SetActive(true);
+                keyDisplayText.text = "x" + playerController.keyCount;
+            }
+        }
+    }
+
+    #endregion
+
+    #region public functions
 
     /// <summary>
     /// makes the win panel visible; called from PlayerController when the 
@@ -158,6 +187,6 @@ public class UIController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-#endregion
+    #endregion
 
 }

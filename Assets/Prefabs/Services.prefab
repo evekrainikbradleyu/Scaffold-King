@@ -142,10 +142,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7575282382089709613}
     m_Modifications:
-    - target: {fileID: 2696460220835719273, guid: 8413818c03820ea45a66edf332ee9be4, type: 3}
-      propertyPath: mapHeight
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4990897129941922090, guid: 8413818c03820ea45a66edf332ee9be4, type: 3}
       propertyPath: m_Name
       value: MapService
@@ -241,18 +237,6 @@ PrefabInstance:
       propertyPath: mapWalls
       value: 
       objectReference: {fileID: 1779843352079518996}
-    - target: {fileID: 1111119828461606940, guid: cd041f2d5132ad442843d93631345227, type: 3}
-      propertyPath: cameraRotateSpeed
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1111119828461606940, guid: cd041f2d5132ad442843d93631345227, type: 3}
-      propertyPath: verticalConstraints.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1111119828461606940, guid: cd041f2d5132ad442843d93631345227, type: 3}
-      propertyPath: verticalConstraints.y
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 1950612898147961511, guid: cd041f2d5132ad442843d93631345227, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -367,101 +351,9 @@ PrefabInstance:
       value: ScaffoldService
       objectReference: {fileID: 0}
     - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldFiller
-      value: 
-      objectReference: {fileID: 273086631577540627, guid: f357273a5c1c66444a6d1ab8035dca42, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
       propertyPath: mapShellController
       value: 
       objectReference: {fileID: 395314080500776264}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldingRemaining
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldFillerWithSpot
-      value: 
-      objectReference: {fileID: 4289592733533667508, guid: 276eb3ef954724344ab8887edc73136c, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldTypes.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: ghostScaffolds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'scaffoldTypes.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2964136996505743554, guid: 4db98bbf45089dd46b838bcec2366031, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'scaffoldTypes.Array.data[3]'
-      value: 
-      objectReference: {fileID: 5934450744835792943, guid: a63b609b404215a4c878cf7c05a6196d, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'scaffoldTypes.Array.data[4]'
-      value: 
-      objectReference: {fileID: 4363537595909695631, guid: d7c161b9d0ea94341b81396784cff4df, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'ghostScaffolds.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2983555204810130653, guid: c09fb46b5939e854e9a5c73cd8e588c9, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'ghostScaffolds.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8886298796145979715, guid: d3677ea9a61259847b15e30f8c3ef4f5, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'ghostScaffolds.Array.data[2]'
-      value: 
-      objectReference: {fileID: 425347149468895832, guid: b5ab10d6f8b8dc44689da4c59a43865f, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'ghostScaffolds.Array.data[3]'
-      value: 
-      objectReference: {fileID: 7838629663759661790, guid: c0050adca62e6fd4198ab387eefb9fb8, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: 'ghostScaffolds.Array.data[4]'
-      value: 
-      objectReference: {fileID: 1795528296548424248, guid: aed5419cfadbcb44fb89883f673beb23, type: 3}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[0].y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[1].x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[2].x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[2].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[3].x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[3].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[4].x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7858755643649374943, guid: 178e5bd9c724c4f498be7c05bb2c0e18, type: 3}
-      propertyPath: scaffoldRarities.Array.data[4].y
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994386864729643945}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWall: 0
   cameraTrack: {fileID: 3305914128609276022}
-  cameraRotateSpeed: 4
+  cameraRotateSpeed: 0.2
   mapWalls: {fileID: 0}
   player: {fileID: 0}
   smoothingTime: 0.05
-  verticalConstraints: {x: 0, y: 0}
+  verticalConstraints: {x: 5.5, y: 50}
