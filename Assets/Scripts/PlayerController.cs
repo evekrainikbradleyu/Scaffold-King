@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private ScaffoldingController scaffoldingController;
     [SerializeField] private UIController uIController;
+    [SerializeField] private LavaController lavaController;
     [SerializeField] private float scrollSensitivity;
 
     #endregion
@@ -213,6 +214,11 @@ public class PlayerController : MonoBehaviour
         transform.position = new Vector3(transform.position.x, mapController.
             MapLayerHeights[playerYLayer], transform.position.z);
         movingPlayer = false;
+
+        if (scaffoldingController.level == 3 && spaces > 0)
+        {
+            lavaController.UpdateLava(transform.position.y - 8);
+        }
 
         yield return null;
     }
@@ -419,7 +425,7 @@ public class PlayerController : MonoBehaviour
     private void OnClick()
     {
         // stops if a gui was clicked or player is moving
-        if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        //if (EventSystem.current.IsPointerOverGameObject()) { return; }
         if (movingPlayer) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue
@@ -508,7 +514,7 @@ public class PlayerController : MonoBehaviour
 
         // only activate if in placing mode
         if (!scaffoldingController.placing) { return; }
-        if (EventSystem.current.IsPointerOverGameObject()) { return; }
+        //if (EventSystem.current.IsPointerOverGameObject()) { return; }
         if (movingPlayer) { return; }
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue

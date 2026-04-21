@@ -27,6 +27,7 @@ public class ScaffoldingController : MonoBehaviour
     public bool placing;
     public GameObject[] scaffoldTypes;
     public PlayerController playerController;
+    public int level;
 
     // privates
     private MapController mapController;
@@ -41,7 +42,7 @@ public class ScaffoldingController : MonoBehaviour
     [SerializeField] private GameObject scaffoldFillerWithSpot;
     [SerializeField] private int startingScaffoldingCount;
     [SerializeField] private int scaffoldingPerRefill;
-    [SerializeField] private int level;
+    
 
     #endregion
 
@@ -931,6 +932,70 @@ public class ScaffoldingController : MonoBehaviour
                         break;
                 }
 
+                break;
+            case 3:
+                switch (levelSection)
+                {
+                    case 1:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 0),
+                            new Vector2(1, 0),
+                            new Vector2(2, 0),
+                            new Vector2(3, 0),
+                            new Vector2(4, 0),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 2:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 0),
+                            new Vector2(1, 0),
+                            new Vector2(2, 0),
+                            new Vector2(3, 0),
+                            new Vector2(4, 0),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 0)
+
+                        };
+
+                        break;
+
+                    case 3:
+
+                        scaffoldRarities = new Vector2[]
+                        {
+                            new Vector2(0, 0),
+                            new Vector2(1, 0),
+                            new Vector2(2, 0),
+                            new Vector2(3, 0),
+                            new Vector2(4, 0),
+                            new Vector2(5, 0),
+                            new Vector2(6, 0),
+                            new Vector2(7, 0),
+                            new Vector2(8, 0),
+                            new Vector2(9, 0),
+                            new Vector2(10, 5)
+
+                        };
+
+                        break;
+                }
                 break;
         }
     }
