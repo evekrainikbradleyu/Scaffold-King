@@ -595,9 +595,59 @@ public class ScaffoldingController : MonoBehaviour
             }
         }
 
-        return scaffoldRanges[UnityEngine.Random.Range(0, scaffoldRanges.Count)
-            ];
-            
+        int selected = scaffoldRanges[UnityEngine.Random.Range(0, 
+            scaffoldRanges.Count)];
+
+        // increase rarities of less used scaffolds 
+        for (int i = 0; i < scaffoldRarities.Length; i++)
+        {
+            switch (selected)
+            {
+                case 1:
+                    AdjustRarities(scaffoldRarities[i].x != 1, scaffoldRarities
+                        [i].x == 1, 1, i);
+                    break;
+                case 9:
+                    AdjustRarities(scaffoldRarities[i].x == 10, 
+                        scaffoldRarities[i].x == 9, 2, i);
+                    break;
+                case 10:
+                    AdjustRarities(scaffoldRarities[i].x == 9, scaffoldRarities
+                        [i].x == 10, 2, i);
+                    break;
+                default:
+                    AdjustRarities(scaffoldRarities[i].x == 1, false, 1, i);
+                    break;
+            }
+        }
+         
+        return selected;
+    }
+
+    /// <summary>
+    /// used when picking the next scaffolding to adjust the rarities of 
+    /// different scaffolds. makes things less monotonous and less likely for 
+    /// the player to run into issues.
+    /// </summary>
+    /// <param name="increaseCondition">the condition that the current 
+    /// iteration is increased under</param>
+    /// <param name="decreaseCondition">the condition that the current 
+    /// iteration is decreased under (minimum remains as 1 always)</param>
+    /// <param name="changeAmount">how much to increase and decrease by</param>
+    /// <param name="i">the iteration variable in GetNextScaffolding()</param>
+    private void AdjustRarities(bool increaseCondition, bool decreaseCondition,
+        int changeAmount, int i)
+    {
+        if (increaseCondition && scaffoldRarities[i].y > 0)
+        {
+            scaffoldRarities[i] = new Vector2(scaffoldRarities[i].x, 
+                scaffoldRarities[i].y + changeAmount);
+        }
+        else if (decreaseCondition)
+        {
+            scaffoldRarities[i] = new Vector2(scaffoldRarities[i].x, Mathf.Max(
+                1, scaffoldRarities[i].y - changeAmount));
+        }
     }
 
     /// <summary>
@@ -787,11 +837,11 @@ public class ScaffoldingController : MonoBehaviour
 
                         scaffoldRarities = new Vector2[]
                         {
-                            new Vector2(0, 4),
-                            new Vector2(1, 5),
-                            new Vector2(2, 1),
+                            new Vector2(0, 8),
+                            new Vector2(1, 10),
+                            new Vector2(2, 2),
                             new Vector2(3, 0),
-                            new Vector2(4, 1),
+                            new Vector2(4, 2),
                             new Vector2(5, 0),
                             new Vector2(6, 0),
                             new Vector2(7, 0),
@@ -811,11 +861,11 @@ public class ScaffoldingController : MonoBehaviour
 
                         scaffoldRarities = new Vector2[]
                         {
-                            new Vector2(0, 4),
-                            new Vector2(1, 5),
-                            new Vector2(2, 1),
+                            new Vector2(0, 8),
+                            new Vector2(1, 10),
+                            new Vector2(2, 2),
                             new Vector2(3, 0),
-                            new Vector2(4, 1),
+                            new Vector2(4, 2),
                             new Vector2(5, 0),
                             new Vector2(6, 0),
                             new Vector2(7, 0),
@@ -915,17 +965,17 @@ public class ScaffoldingController : MonoBehaviour
 
                         scaffoldRarities = new Vector2[]
                         {
-                            new Vector2(0, 4),
-                            new Vector2(1, 5),
-                            new Vector2(2, 2),
+                            new Vector2(0, 8),
+                            new Vector2(1, 10),
+                            new Vector2(2, 4),
                             new Vector2(3, 0),
-                            new Vector2(4, 5),
-                            new Vector2(5, 2),
+                            new Vector2(4, 10),
+                            new Vector2(5, 4),
                             new Vector2(6, 0),
-                            new Vector2(7, 2),
+                            new Vector2(7, 4),
                             new Vector2(8, 0),
-                            new Vector2(9, 7),
-                            new Vector2(10, 5)
+                            new Vector2(9, 14),
+                            new Vector2(10, 10)
 
                         };
 
