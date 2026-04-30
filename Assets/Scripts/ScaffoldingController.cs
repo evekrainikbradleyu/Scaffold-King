@@ -28,11 +28,13 @@ public class ScaffoldingController : MonoBehaviour
     public GameObject[] scaffoldTypes;
     public PlayerController playerController;
     public int level;
+    
 
     // privates
     private MapController mapController;
     private int placeDirection;
     private int levelSection;
+    private bool encounteredElevator;
 
     // serialized privates
     [SerializeField] private MapShellController mapShellController;
@@ -72,6 +74,8 @@ public class ScaffoldingController : MonoBehaviour
         SetUpLevel();
 
         nextScaffolding = GetNextScaffolding();
+
+        encounteredElevator = level != 2;
     }
 
     #endregion
@@ -333,6 +337,15 @@ public class ScaffoldingController : MonoBehaviour
             "BoxCollider"));
         Destroy(GetScaffoldPlacement(collectSpace, Vector3.left).transform.Find
             ("key").gameObject);
+    }
+
+    /// <summary>
+    /// returns true if the player has seen the elevator yet; used for tutorial
+    /// </summary>
+    /// <returns>true if the player has seen the elevator yet</returns>
+    public bool PlayerHasEncounteredElevator()
+    {
+        return encounteredElevator;
     }
 
     #endregion
@@ -958,6 +971,10 @@ public class ScaffoldingController : MonoBehaviour
                             new Vector2(10, 3)
 
                         };
+
+                        // open elevator tutorial panel since it's the first
+                        // time seeing them
+                        encounteredElevator = true;
 
                         break;
 

@@ -27,6 +27,8 @@ public class UIController : MonoBehaviour
     private MapController mapController;
     private Image blackscreen;
     private int currentTutorialPanel;
+    private bool conveyorsTaughtYet;
+    private bool wallsTaughtYet;
 
     // serialized privates
 
@@ -47,7 +49,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject keyDisplay;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject[] tutorialPanels;
+    [SerializeField] private GameObject[] mechanicPanels;
     [SerializeField] private bool isTutorial;
+
 
     #endregion
 
@@ -66,6 +70,8 @@ public class UIController : MonoBehaviour
         winPanel.SetActive(false);
         menu.SetActive(false);
         currentTutorialPanel = 0;
+        conveyorsTaughtYet = scaffoldingController.level != 1;
+        wallsTaughtYet = conveyorsTaughtYet;
 
         blackscreen = blackscreenObj.GetComponent<Image>();
 
@@ -84,6 +90,11 @@ public class UIController : MonoBehaviour
                 );
         }
 
+        if (scaffoldingController.level == 2)
+        {
+            StartCoroutine(CheckForElevators());
+        }
+
     }
 
     /// <summary>
@@ -97,34 +108,9 @@ public class UIController : MonoBehaviour
         UpdateScaffoldDisplays();
         UpdateKeyDisplay();
         CheckForLoss();
+        DoTutorialPanels();
 
-        if (isTutorial)
-        {
-            if (cameraController.PlayerHasTurnedCamera() && !tutorialPanels[3].
-                transform.Find("next").gameObject.activeSelf)
-            {
-                tutorialPanels[3].transform.Find("next").gameObject.SetActive(
-                    true);
-            }
-            if (playerController.PlayerHasMoved() && !tutorialPanels[4].
-                transform.Find("next").gameObject.activeSelf)
-            {
-                tutorialPanels[4].transform.Find("next").gameObject.SetActive(
-                    true);
-            }
-            if (playerController.PlayerHasPlacedScaffolding() && !
-                tutorialPanels[5].transform.Find("next").gameObject.activeSelf)
-            {
-                tutorialPanels[5].transform.Find("next").gameObject.SetActive(
-                    true);
-            }
-            if (playerController.PlayerHasUsedLadder() && !tutorialPanels[6].
-                transform.Find("next").gameObject.activeSelf)
-            {
-                tutorialPanels[6].transform.Find("next").gameObject.SetActive(
-                    true);
-            }
-        }
+
     }
 
     #endregion
@@ -187,6 +173,13 @@ public class UIController : MonoBehaviour
         yield return null;
     }
 
+    private IEnumerator CheckForElevators()
+    {
+        yield return new WaitUntil(() => scaffoldingController.
+            PlayerHasEncounteredElevator());
+        mechanicPanels[2].SetActive(true);
+        yield return null;
+    }
     #endregion
 
     #region private functions
@@ -202,6 +195,40 @@ public class UIController : MonoBehaviour
         heightSlider.value = playerController.playerYLayer + 1;
         heightSlider.enabled = false;
         playerHeightDisplay.text = heightSlider.value.ToString();
+    }
+    
+    /// <summary>
+    /// manages panels during the tutorial
+    /// </summary>
+    private void DoTutorialPanels()
+    {
+        if (isTutorial)
+        {
+            if (cameraController.PlayerHasTurnedCamera() && !tutorialPanels[3].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[3].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasMoved() && !tutorialPanels[4].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[4].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasPlacedScaffolding() && !
+                tutorialPanels[5].transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[5].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+            if (playerController.PlayerHasUsedLadder() && !tutorialPanels[6].
+                transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[6].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
+        }
     }
 
     /// <summary>
@@ -220,12 +247,31 @@ public class UIController : MonoBehaviour
     {
         nextScaffold.texture = scaffoldIcons[scaffoldingController.
             nextScaffolding];
+
         currentScaffold.texture = scaffoldIcons[scaffoldingController.
             currentScaffolding];
+
+        // opens conveyor tutorial panel if it's level 1 and the first time the
+        // player's seen a conveyor
+        if (scaffoldingController.currentScaffolding == 3 && !conveyorsTaughtYet)
+        {
+            mechanicPanels[0].SetActive(true);
+            conveyorsTaughtYet = true;
+        }
+
+        // same thing for walls  
+        if (Array.Exists<int>(new int[] { 5, 7 }, i => i == 
+            scaffoldingController.currentScaffolding) && !wallsTaughtYet)
+        {
+            CloseMechanicPanels();
+            mechanicPanels[1].SetActive(true);
+            wallsTaughtYet = true;
+        }
 
         // changes shade of current scaffold gui when in placing mode
         currentScaffold.color = scaffoldingController.placing ? new Color(0.78f
             , 0.78f, 0.78f) : Color.white;
+
     }
 
     /// <summary>
@@ -318,6 +364,17 @@ public class UIController : MonoBehaviour
         if (currentTutorialPanel < tutorialPanels.Length)
         {
             tutorialPanels[currentTutorialPanel].SetActive(true);
+        }
+    }
+
+    public void CloseMechanicPanels()
+    {
+        foreach (GameObject panel in mechanicPanels)
+        {
+            if (panel.activeSelf)
+            {
+                panel.SetActive(false);
+            }
         }
     }
 
