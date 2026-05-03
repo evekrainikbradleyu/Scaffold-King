@@ -811,6 +811,71 @@ public class ScaffoldingController : MonoBehaviour
                 PlaceScaffolding(20, 0, 5, 8);
 
                 break;
+            case 3:
+
+                // bottom terrain
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 3; j < 6; j++)
+                    {
+                        PlaceScaffolding(0, i, j, 6);
+                    }
+                }
+                PlaceScaffolding(0, 5, 2, 6);
+                PlaceScaffolding(0, 4, 2, 6);
+                PlaceScaffolding(0, 3, 2, 6);
+
+                for (int i = 2; i < 6; i++)
+                {
+                    for (int j = 4;  j < 6; j++)
+                    {
+                        PlaceScaffolding(1, i, j, 6);
+                    }
+                }
+                PlaceScaffolding(1, 1, 5, 6);
+
+
+                // first refill
+
+                PlaceScaffolding(8, 1, 0, 6);
+                PlaceScaffolding(8, 0, 1, 6);
+                PlaceScaffolding(8, 0, 0, 6);
+
+                PlaceScaffolding(9, 2, 1, 6);
+                PlaceScaffolding(9, 2, 0, 6);
+                PlaceScaffolding(9, 1, 2, 6);
+                PlaceScaffolding(9, 1, 1, 6);
+                PlaceScaffolding(9, 1, 0, 6);
+                PlaceScaffolding(9, 0, 2, 6);
+                PlaceScaffolding(9, 0, 1, 6);
+                PlaceScaffolding(9, 0, 0, 6);
+
+                PlaceScaffolding(10, 0, 0, 8);
+
+                // terrain between 1 and 2
+
+                PlaceScaffolding(15, 5, 2, 6);
+                PlaceScaffolding(15, 4, 2, 6);
+                PlaceScaffolding(15, 4, 3, 6);
+                PlaceScaffolding(15, 3, 3, 6);
+                PlaceScaffolding(15, 3, 4, 6);
+                PlaceScaffolding(15, 2, 4, 6);
+                PlaceScaffolding(15, 2, 5, 6);
+
+                // second refill
+
+                for (int i = 1; i < 5; i++)
+                {
+                    PlaceScaffolding(19, 0, i, 6);
+                }
+                PlaceScaffolding(19, 1, 5, 6);
+                PlaceScaffolding(19, 1, 4, 6);
+                PlaceScaffolding(19, 1, 1, 6);
+                PlaceScaffolding(19, 1, 0, 6);
+
+                PlaceScaffolding(20, 1, 0, 8);
+
+                break;
         }
     }
 
@@ -1008,13 +1073,13 @@ public class ScaffoldingController : MonoBehaviour
                         scaffoldRarities = new Vector2[]
                         {
                             new Vector2(0, 0),
-                            new Vector2(1, 0),
-                            new Vector2(2, 0),
+                            new Vector2(1, 8),
+                            new Vector2(2, 1),
                             new Vector2(3, 0),
-                            new Vector2(4, 0),
-                            new Vector2(5, 0),
+                            new Vector2(4, 4),
+                            new Vector2(5, 2),
                             new Vector2(6, 0),
-                            new Vector2(7, 0),
+                            new Vector2(7, 2),
                             new Vector2(8, 0),
                             new Vector2(9, 0),
                             new Vector2(10, 0)
@@ -1027,17 +1092,17 @@ public class ScaffoldingController : MonoBehaviour
 
                         scaffoldRarities = new Vector2[]
                         {
-                            new Vector2(0, 0),
-                            new Vector2(1, 0),
-                            new Vector2(2, 0),
-                            new Vector2(3, 0),
-                            new Vector2(4, 0),
+                            new Vector2(0, 2),
+                            new Vector2(1, 4),
+                            new Vector2(2, 1),
+                            new Vector2(3, 2),
+                            new Vector2(4, 4),
                             new Vector2(5, 0),
                             new Vector2(6, 0),
                             new Vector2(7, 0),
                             new Vector2(8, 0),
-                            new Vector2(9, 0),
-                            new Vector2(10, 0)
+                            new Vector2(9, 3),
+                            new Vector2(10, 3)
 
                         };
 
@@ -1047,17 +1112,17 @@ public class ScaffoldingController : MonoBehaviour
 
                         scaffoldRarities = new Vector2[]
                         {
-                            new Vector2(0, 0),
-                            new Vector2(1, 0),
-                            new Vector2(2, 0),
-                            new Vector2(3, 0),
-                            new Vector2(4, 0),
-                            new Vector2(5, 0),
+                            new Vector2(0, 2),
+                            new Vector2(1, 10),
+                            new Vector2(2, 1),
+                            new Vector2(3, 2),
+                            new Vector2(4, 6),
+                            new Vector2(5, 4),
                             new Vector2(6, 0),
-                            new Vector2(7, 0),
+                            new Vector2(7, 4),
                             new Vector2(8, 0),
-                            new Vector2(9, 0),
-                            new Vector2(10, 5)
+                            new Vector2(9, 2),
+                            new Vector2(10, 2)
 
                         };
 

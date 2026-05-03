@@ -26,8 +26,7 @@ public class LavaController : MonoBehaviour
     private IEnumerator MoveLava(float riseTime, float height)
     {
         float timeElapsed = 0;
-        float originalHeight = transform.position.y + transform.localScale.y / 
-            2;
+        float originalHeight = transform.localScale.y;
 
         while (timeElapsed < lavaRiseTime)
         {
@@ -37,6 +36,9 @@ public class LavaController : MonoBehaviour
                 Mathf.Lerp(originalHeight, height, timeElapsed / riseTime),
                 transform.localScale.z
             );
+
+            transform.position = new Vector3(transform.position.x, transform.
+                localScale.y / 2, transform.position.z);
 
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -48,6 +50,9 @@ public class LavaController : MonoBehaviour
             height,
             transform.localScale.z
         );
+
+        transform.position = new Vector3(transform.position.x, transform.
+            localScale.y / 2, transform.position.z);
 
         yield return null;
     }

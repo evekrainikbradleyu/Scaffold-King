@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private bool playerHasMoved;
     private bool playerHasPlacedScaffolding;
     private bool playerHasUsedLadder;
+    private int highestHeightReached;
 
     // serialized privates
     [InfoBox("move speed = time taken to move between squares; less is faster")
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         playerHasMoved = false;
         playerHasPlacedScaffolding = false;
         playerHasUsedLadder = false;
+        highestHeightReached = 0;
 
         // set player to start position
         transform.position = new Vector3
@@ -215,9 +217,11 @@ public class PlayerController : MonoBehaviour
             MapLayerHeights[playerYLayer], transform.position.z);
         movingPlayer = false;
 
-        if (scaffoldingController.level == 3 && spaces > 0)
+        if (scaffoldingController.level == 3 && spaces > 0 && playerYLayer > 
+            highestHeightReached)
         {
             lavaController.UpdateLava(transform.position.y - 8);
+            highestHeightReached = playerYLayer;
         }
 
         yield return null;
