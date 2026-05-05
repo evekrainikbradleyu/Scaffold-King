@@ -548,7 +548,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: x2
+  m_text: '
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6361,7 +6363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7132274702309916154
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10447,17 +10449,17 @@ MonoBehaviour:
   currentScaffold: {fileID: 3834042430644420742}
   blackscreenObj: {fileID: 2517999611979001644}
   scaffoldIcons:
-  - {fileID: 2800000, guid: 3955be715f384ec45b4a82b3396b5aa7, type: 3}
-  - {fileID: 2800000, guid: 045d1b980a9d270429ebc9124797d819, type: 3}
-  - {fileID: 2800000, guid: 93b07d58ec124b84090f798652b4f403, type: 3}
-  - {fileID: 2800000, guid: 1eda9621ee65c4b439d752f6b483ee1d, type: 3}
-  - {fileID: 2800000, guid: 66d1a417b048dc6499eec3c20264417d, type: 3}
-  - {fileID: 2800000, guid: 6583985c01e8c584885c374130e71364, type: 3}
+  - {fileID: 2800000, guid: fbc904d45db911441bb6c1f5744696a8, type: 3}
+  - {fileID: 2800000, guid: 4ff5a552e7b03b044b887f5d18e23112, type: 3}
+  - {fileID: 2800000, guid: 15b2d4e1e8384134ab9cf5bd097a3fda, type: 3}
+  - {fileID: 2800000, guid: 5cff3964a6a9bb34b9cce54b47619ef3, type: 3}
+  - {fileID: 2800000, guid: 029d11d0f6db8bd49a9a2ee3caede4fe, type: 3}
+  - {fileID: 2800000, guid: 52d85efebae83214689dcad4c5bb673a, type: 3}
   - {fileID: 2800000, guid: a581237834aec1345b68f30823c9f96a, type: 3}
-  - {fileID: 2800000, guid: 69c87d85a09f7774dbf8b7c18ca29111, type: 3}
+  - {fileID: 2800000, guid: 327eef7d6bfc28241be1c800702dcf12, type: 3}
   - {fileID: 2800000, guid: a8f68bc12ef59f946adbc8e879968f8c, type: 3}
-  - {fileID: 2800000, guid: d52034b469050bd4892b04ac4d5de7ba, type: 3}
-  - {fileID: 2800000, guid: 59481d5399834d347953a133840d9883, type: 3}
+  - {fileID: 2800000, guid: 773687f012b11f64291d2e8126ae4a7e, type: 3}
+  - {fileID: 2800000, guid: fd9cbb379566f0240998256501f7bbbf, type: 3}
   winPanel: {fileID: 1688908528636282115}
   losePanel: {fileID: 700097386794143540}
   keyDisplay: {fileID: 1560131559622866925}
