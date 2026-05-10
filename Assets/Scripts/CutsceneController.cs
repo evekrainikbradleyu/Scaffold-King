@@ -3,12 +3,11 @@
 // Author : Eve "Storyteller" Krainik
 // Creation Date : April 9, 2026
 //
-// Brief Description : Controls the cutscenes between levels
+// Brief Description : Controls the cutscenes between levels.
 *****************************************************************************/
 
 using System;
 using System.Collections;
-using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -42,11 +41,18 @@ public class CutsceneController : MonoBehaviour
 
     #region start + update
 
+    /// <summary>
+    /// sets variables, input actions, volume, then starts the cutscene's
+    /// coroutines
+    /// </summary>
     private void Start()
     {
         talking = false;
+        totalTimeElapsed = 0;
         interact = InputSystem.actions.FindAction("Interact");
         interact.performed += InteractPerformed;
+
+        audioPlayer.volume = Mathf.Clamp(GameSettings.volume * 2, 0, 1);
 
         AssignSceneEvents();
         SetUpScene();
@@ -54,7 +60,10 @@ public class CutsceneController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// changes between mouth open and closed animations when the scaffold god
+    /// is talking
+    /// </summary>
     private void Update()
     {
         totalTimeElapsed += Time.deltaTime;
@@ -71,6 +80,10 @@ public class CutsceneController : MonoBehaviour
 
     #region coroutines
 
+    /// <summary>
+    /// executes all the cutscene animations in order
+    /// </summary>
+    /// <returns>yields null</returns>
     private IEnumerator ExecuteSceneEvents()
     {
         foreach (IEnumerator sceneEvent in sceneEvents)
@@ -81,6 +94,16 @@ public class CutsceneController : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// fades an object in or out
+    /// </summary>
+    /// <param name="thing">object to fade</param>
+    /// <param name="fadeIn">true if the object is fading in rather than out
+    /// </param>
+    /// <param name="fadeTime">how long the fade takes</param>
+    /// <param name="isBlack">true if the object is all black (used for 
+    /// blackscreen)</param>
+    /// <returns>yields null</returns>
     private IEnumerator FadeInThing(GameObject thing, bool fadeIn, float fadeTime, bool isBlack)
     {
         float timeElapsed = 0;
@@ -101,6 +124,11 @@ public class CutsceneController : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// tilts the camera up in the first cutscene
+    /// </summary>
+    /// <param name="tiltTime">how long to take</param>
+    /// <returns>yields null</returns>
     private IEnumerator TiltUpCamera(float tiltTime)
     {
         float timeElapsed = 0;
@@ -117,12 +145,23 @@ public class CutsceneController : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// just waits for time, but in coroutine form for the array
+    /// </summary>
+    /// <param name="seconds">how long to wait</param>
+    /// <returns>yields null</returns>
     private IEnumerator Wait(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         yield return null;
     }
 
+    /// <summary>
+    /// makes the scaffold god's face change
+    /// </summary>
+    /// <param name="face">ID of the face to change to</param>
+    /// <param name="time">how long to make the face before continuing</param>
+    /// <returns>yields a waitforseconds instance</returns>
     private IEnumerator MakeFace(int face, float time)
     {
         scaffoldGod.GetComponent<RawImage>().texture = scaffoldGodSprites[face]
@@ -130,6 +169,12 @@ public class CutsceneController : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
+    /// <summary>
+    /// makes the scaffold god talk
+    /// </summary>
+    /// <param name="time">how long to talk</param>
+    /// <param name="disgusted">true if he's disgusted while talking</param>
+    /// <returns>yields null</returns>
     private IEnumerator Talk(float time, bool disgusted = false)
     {
         talkingDisgustedly = disgusted;
@@ -140,18 +185,30 @@ public class CutsceneController : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// starts the cutscene audio, but in coroutine form for the array
+    /// </summary>
+    /// <returns>yields null</returns>
     private IEnumerator StartAudio()
     {
         audioPlayer.Play();
         yield return null;
     }
 
+    /// <summary>
+    /// sends the player to the next scene, but in coroutine form for the array
+    /// </summary>
+    /// <returns>yields null</returns>
     private IEnumerator SendToNextScene()
     {
         SceneManager.LoadScene(nextScene);
         yield return null;
     }
 
+    /// <summary>
+    /// removes the skip notification after 5 seconds
+    /// </summary>
+    /// <returns>yields null</returns>
     private IEnumerator RemoveSkipButton()
     {
         yield return new WaitForSeconds(5);
@@ -163,11 +220,17 @@ public class CutsceneController : MonoBehaviour
 
     #region private functions
 
+    /// <summary>
+    /// sets up the scene depending on which cutscene it is
+    /// </summary>
     private void SetUpScene()
     {
-        switch (cutsceneID)
-        {
-            case 0:
+        switch (cutsceneID) // this could be an if statement, didn't know if i
+        {                   // would need another cutscene setup at time of 
+            case 0:         // writing
+
+                // starts with camera tilted down and absent scaffold god in
+                // first cutscene
                 camera.transform.eulerAngles = new Vector3(40, 45, 0);
                 scaffoldGod.GetComponent<RawImage>().texture = 
                     scaffoldGodSprites[2];
@@ -192,6 +255,9 @@ public class CutsceneController : MonoBehaviour
         StartCoroutine(RemoveSkipButton());
     }
 
+    /// <summary>
+    /// assigns the scene events array depending on what cutscene it is
+    /// </summary>
     private void AssignSceneEvents()
     {
         switch(cutsceneID)
@@ -261,8 +327,23 @@ public class CutsceneController : MonoBehaviour
             case 3:
                 sceneEvents = new IEnumerator[]
                 {
-                    FadeInThing(blackScreen, false, 2, true)
-
+                    FadeInThing(blackScreen, false, 2, true),
+                    StartAudio(),
+                    Talk(3.5f, disgusted: true),
+                    Talk(2.8f),
+                    MakeFace(2, 3),
+                    Talk(1.5f),
+                    MakeFace(2, 1),
+                    Talk(2f),
+                    MakeFace(2, 0.5f),
+                    Talk(1),
+                    MakeFace(2, 4f),
+                    Talk(4.5f),
+                    MakeFace(3, 1),
+                    Talk(4.3f),
+                    MakeFace(2, 2),
+                    FadeInThing(blackScreen, true, 1, true),
+                    SendToNextScene()
                 };
                 break;
         }
@@ -272,6 +353,10 @@ public class CutsceneController : MonoBehaviour
 
     #region Input Actions
 
+    /// <summary>
+    /// skips cutscene on space bar press
+    /// </summary>
+    /// <param name="obj">context</param>
     private void InteractPerformed(InputAction.CallbackContext obj)
     {
         StartCoroutine(SendToNextScene());

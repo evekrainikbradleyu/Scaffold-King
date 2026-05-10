@@ -148,6 +148,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioService
       objectReference: {fileID: 0}
+    - target: {fileID: 2994516536997655795, guid: 410f0288d22f40f42ac4fce17cfcc49c, type: 3}
+      propertyPath: scaffoldingController
+      value: 
+      objectReference: {fileID: 126401570096256995}
     - target: {fileID: 6060987608857387103, guid: 410f0288d22f40f42ac4fce17cfcc49c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -193,6 +197,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 410f0288d22f40f42ac4fce17cfcc49c, type: 3}
+--- !u!114 &4026231916650647317 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2994516536997655795, guid: 410f0288d22f40f42ac4fce17cfcc49c, type: 3}
+  m_PrefabInstance: {fileID: 2192870887144455142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25303442c719174a81524854cfa3077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5364438523413224377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6060987608857387103, guid: 410f0288d22f40f42ac4fce17cfcc49c, type: 3}
@@ -557,6 +572,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4911443501972915950, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
+      propertyPath: audioController
+      value: 
+      objectReference: {fileID: 4026231916650647317}
     - target: {fileID: 4911443501972915950, guid: 05b71ac9ccb434a458dabd5373718dde, type: 3}
       propertyPath: cameraController
       value: 

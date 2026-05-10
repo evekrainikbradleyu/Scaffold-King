@@ -26,6 +26,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScenes/Level3.unity
     guid: 3578540fac37e3843aeff7ba0b290f90
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/cutscene0.unity
+    guid: 7fc24b97612943142b31e6e1cd658609
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/cutscene1.unity
+    guid: 740fdcc44243b744da7c14832a83ca7c
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/cutscene2.unity
+    guid: 1af969d70858e9849a0ac783850aaa05
+  - enabled: 1
+    path: Assets/Scenes/BuildScenes/cutscene3.unity
+    guid: ce630a91215107f4aab2649acf1197cb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

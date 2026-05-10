@@ -22,12 +22,6 @@ public class LavaController : MonoBehaviour
 
     #endregion
 
-    #region start + update
-
-
-
-    #endregion
-
     #region coroutines
 
     private IEnumerator MoveLava(float riseTime, float height)
@@ -74,6 +68,7 @@ public class LavaController : MonoBehaviour
 
         StartCoroutine(MoveLava(lavaRiseTime, height));
     }
+
 
     #endregion
 

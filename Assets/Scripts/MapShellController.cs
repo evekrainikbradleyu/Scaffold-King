@@ -212,6 +212,10 @@ public class MapController
         
     }
 
+    /// <summary>
+    /// sets the wall heights of the map automatically depending on map height
+    /// </summary>
+    /// <param name="shell">mapshell</param>
     private void SetWallHeights(GameObject shell)
     {
 

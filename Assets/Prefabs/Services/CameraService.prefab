@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearestWall: 0
   cameraTrack: {fileID: 3305914128609276022}
-  cameraRotateSpeed: 0.2
+  cameraRotateSpeed: 0.1
   mapWalls: {fileID: 0}
   player: {fileID: 0}
   smoothingTime: 0.05

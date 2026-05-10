@@ -4,7 +4,7 @@
 // Creation Date : March 26, 2026
 //
 // Brief Description : Controls the dismiss button for the alpha tutorial 
-// panel.
+// panel. NO LONGER IN USE!
 *****************************************************************************/
 
 using UnityEngine;

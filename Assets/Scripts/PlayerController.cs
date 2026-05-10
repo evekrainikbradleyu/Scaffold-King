@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     private bool playerHasMoved;
     private bool playerHasPlacedScaffolding;
     private bool playerHasUsedLadder;
-    private bool inLava;
+    private bool playerHasRotatedScaffolding;
     private int highestHeightReached;
 
     // serialized privates
@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
         playerHasMoved = false;
         playerHasPlacedScaffolding = false;
         playerHasUsedLadder = false;
+        playerHasRotatedScaffolding = false;
         highestHeightReached = 0;
 
         // set player to start position
@@ -270,6 +271,15 @@ public class PlayerController : MonoBehaviour
     public bool PlayerHasUsedLadder()
     {
         return playerHasUsedLadder;
+    }
+
+    /// <summary>
+    /// checks if player has rotated scaffolding yet 
+    /// </summary>
+    /// <returns>true if player has rotated scaffolding yet</returns>
+    public bool PlayerHasRotatedScaffolding()
+    {
+        return playerHasRotatedScaffolding;
     }
 
     #endregion
@@ -829,6 +839,11 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log(obj.ReadValue<Vector2>().ToString());
         scaffoldingController.UpdatePlaceDirection(obj.ReadValue<Vector2>().y);
+
+        if (scaffoldingController.placing)
+        {
+            playerHasRotatedScaffolding = true;
+        }
     }
 
     #endregion

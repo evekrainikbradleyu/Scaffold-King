@@ -58,6 +58,8 @@ public class CameraController : MonoBehaviour
         rightClick.canceled += RightClickCanceled;
 
         transform.RotateAround(cameraTrack.transform.position, Vector3.up, 45);
+
+        cameraRotateSpeed = GameSettings.turnSpeed;
     }
 
     /// <summary>
@@ -142,6 +144,9 @@ public class CameraController : MonoBehaviour
         transform.LookAt(cameraTrack.transform);
     }
 
+    /// <summary>
+    /// gets the delta movement of the mouse
+    /// </summary>
     private void GetMouseDelta()
     {
         mouseDelta = Mouse.current.delta.ReadValue();
@@ -153,9 +158,21 @@ public class CameraController : MonoBehaviour
 
     #region public functions
 
+    /// <summary>
+    /// returns true if the player has turned the camera yet
+    /// </summary>
+    /// <returns>true if the player has turned the camera yet</returns>
     public bool PlayerHasTurnedCamera()
     {
         return playerHasTurnedCamera;
+    }
+
+    /// <summary>
+    /// updates turn sensitivity (called from uicontroller when slider changes)
+    /// </summary>
+    public void UpdateSensitivity()
+    {
+        cameraRotateSpeed = GameSettings.turnSpeed;
     }
 
     #endregion

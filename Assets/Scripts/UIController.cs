@@ -18,10 +18,6 @@ public class UIController : MonoBehaviour
 {
     #region variables
 
-    // publics
-
-    // *crickets*
-
     // privates
 
     private MapController mapController;
@@ -29,6 +25,7 @@ public class UIController : MonoBehaviour
     private int currentTutorialPanel;
     private bool conveyorsTaughtYet;
     private bool wallsTaughtYet;
+    private bool lavaTaughtYet;
 
     // serialized privates
 
@@ -36,6 +33,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private MapShellController mapShellController;
     [SerializeField] private ScaffoldingController scaffoldingController;
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private AudioController audioController;
     [SerializeField] private Slider heightSlider;
     [SerializeField] private TMP_Text playerHeightDisplay;
     [SerializeField] private TMP_Text scaffoldingRemainingDisplay;
@@ -48,6 +46,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject losePanel;
     [SerializeField] private GameObject keyDisplay;
     [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject volumeSlider;
+    [SerializeField] private GameObject sensitivitySlider;
     [SerializeField] private GameObject[] tutorialPanels;
     [SerializeField] private GameObject[] mechanicPanels;
     [SerializeField] private bool isTutorial;
@@ -58,7 +59,8 @@ public class UIController : MonoBehaviour
     #region start + update
 
     /// <summary>
-    /// assigns vaariables and sets up starting gui
+    /// assigns variables and sets up starting gui; also sets tutorial panels
+    /// up
     /// </summary>
     private void Start()
     {
@@ -72,6 +74,7 @@ public class UIController : MonoBehaviour
         currentTutorialPanel = 0;
         conveyorsTaughtYet = scaffoldingController.level != 1;
         wallsTaughtYet = conveyorsTaughtYet;
+        lavaTaughtYet = scaffoldingController.level != 3;
 
         blackscreen = blackscreenObj.GetComponent<Image>();
 
@@ -87,6 +90,8 @@ public class UIController : MonoBehaviour
             tutorialPanels[5].transform.Find("next").gameObject.SetActive(false
                 );
             tutorialPanels[6].transform.Find("next").gameObject.SetActive(false
+                );
+            tutorialPanels[7].transform.Find("next").gameObject.SetActive(false
                 );
         }
 
@@ -109,8 +114,6 @@ public class UIController : MonoBehaviour
         UpdateKeyDisplay();
         CheckForLoss();
         DoTutorialPanels();
-
-
     }
 
     #endregion
@@ -169,10 +172,15 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         winPanel.SetActive(true);
-        
+
         yield return null;
     }
 
+    /// <summary>
+    /// waits until the players seen an elevator then sets the elevator
+    /// tutorial to active when they have
+    /// </summary>
+    /// <returns>yields null</returns>
     private IEnumerator CheckForElevators()
     {
         yield return new WaitUntil(() => scaffoldingController.
@@ -181,6 +189,10 @@ public class UIController : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// fades out and restarts level when player falls into lava
+    /// </summary>
+    /// <returns>yields null, but doesn't complete due to restart</returns>
     private IEnumerator DoLavaFade()
     {
         yield return StartCoroutine(FadeBlackScreen(3, 1));
@@ -188,6 +200,8 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         RestartLevel();
+
+        yield return null;
     }
 
     #endregion
@@ -238,6 +252,12 @@ public class UIController : MonoBehaviour
                 tutorialPanels[6].transform.Find("next").gameObject.SetActive(
                     true);
             }
+            if (playerController.PlayerHasRotatedScaffolding() && !
+                tutorialPanels[7].transform.Find("next").gameObject.activeSelf)
+            {
+                tutorialPanels[7].transform.Find("next").gameObject.SetActive(
+                    true);
+            }
         }
     }
 
@@ -263,7 +283,8 @@ public class UIController : MonoBehaviour
 
         // opens conveyor tutorial panel if it's level 1 and the first time the
         // player's seen a conveyor
-        if (scaffoldingController.currentScaffolding == 3 && !conveyorsTaughtYet)
+        if (scaffoldingController.currentScaffolding == 3 && !
+            conveyorsTaughtYet)
         {
             mechanicPanels[0].SetActive(true);
             conveyorsTaughtYet = true;
@@ -276,6 +297,13 @@ public class UIController : MonoBehaviour
             CloseMechanicPanels();
             mechanicPanels[1].SetActive(true);
             wallsTaughtYet = true;
+        }
+
+        // same thing for lava in level 3
+        if (playerController.playerYLayer >= 5 && !lavaTaughtYet)
+        {
+            mechanicPanels[3].SetActive(true);
+            lavaTaughtYet = true;
         }
 
         // changes shade of current scaffold gui when in placing mode
@@ -367,6 +395,9 @@ public class UIController : MonoBehaviour
         menu.SetActive(!menu.activeSelf);
     }
 
+    /// <summary>
+    /// opens the next tutorial panel or closes if on the last one
+    /// </summary>
     public void NextTutorialPanel()
     {
         tutorialPanels[currentTutorialPanel].SetActive(false);
@@ -377,6 +408,9 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// closes all mechanic introduction panels
+    /// </summary>
     public void CloseMechanicPanels()
     {
         foreach (GameObject panel in mechanicPanels)
@@ -388,12 +422,34 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// public function allowing playercontroller to call lava fade coroutine
+    /// </summary>
     public void DoLavaCoroutine()
     {
         StartCoroutine(DoLavaFade());
     }
 
+    /// <summary>
+    /// toggles the settings menu
+    /// </summary>
+    public void OpenSettingsMenu()
+    {
+        optionsMenu.SetActive(!optionsMenu.activeSelf);
+    }
 
+    /// <summary>
+    /// updates volume and turnspeed when sliders in options are adjusted
+    /// </summary>
+    public void UpdateGameSettings()
+    {
+        GameSettings.volume = volumeSlider.GetComponent<Slider>().value;
+        GameSettings.turnSpeed = sensitivitySlider.GetComponent<Slider>().value
+            ;
+
+        audioController.UpdateVolumes();
+        cameraController.UpdateSensitivity();
+    }
 
     #endregion
 

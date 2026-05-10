@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 71e0d11955957a144990e4f5f739955b, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 06e6e0964dde38d4a9a21d8943a740a9, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -390,8 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91c363e80e03d24dbe2bf2edbd8c533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneID: 3
-  nextScene: 0
+  cutsceneID: 2
+  nextScene: 5
   blackScreen: {fileID: 550130009}
   cutsceneAudios:
   - {fileID: 8300000, guid: 32e30312e7f5a064d9f097fa5aa641e5, type: 3}
@@ -471,9 +471,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1940599534094791725, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940599534094791725, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11372549
+      objectReference: {fileID: 0}
     - target: {fileID: 4099519698666869582, guid: 730b06524bd71734facf4357da987774, type: 3}
       propertyPath: m_Name
       value: LightingService
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555595371300210017, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555595371300210017, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989329577976186426, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.059748232
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989329577976186426, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11232184
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989329577976186426, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775629822716481367, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775629822716481367, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775629822716481367, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951744871063281821, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.b
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951744871063281821, guid: 730b06524bd71734facf4357da987774, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11372549
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -622,7 +670,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e9db4ff469c5e12449fa90c5d1f7890c, type: 2}
+  - {fileID: 2100000, guid: 6000803aa6823e149b865dd98e9d8f06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -701,7 +749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -417, y: -294}
+  m_AnchoredPosition: {x: -292, y: -224}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1472436368
@@ -1067,7 +1115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
