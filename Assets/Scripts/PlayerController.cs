@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private bool playerHasMoved;
     private bool playerHasPlacedScaffolding;
     private bool playerHasUsedLadder;
+    private bool inLava;
     private int highestHeightReached;
 
     // serialized privates
@@ -715,6 +716,9 @@ public class PlayerController : MonoBehaviour
                     currentElevatorController.UnlockElevator();
                     keyCount--;
                 }
+                break;
+            case "Lava":
+                uIController.DoLavaCoroutine();
                 break;
         }
     }

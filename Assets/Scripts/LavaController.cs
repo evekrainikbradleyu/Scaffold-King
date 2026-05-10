@@ -1,3 +1,10 @@
+/*****************************************************************************
+// File Name : LavaController.cs
+// Author : Eve "Lava-Bender" Krainik
+// Creation Date : March 25, 2026
+//
+// Brief Description : Controls the lava in level 3.
+*****************************************************************************/
 using System.Collections;
 using UnityEngine;
 

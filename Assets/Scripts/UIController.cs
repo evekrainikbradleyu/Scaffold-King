@@ -180,6 +180,16 @@ public class UIController : MonoBehaviour
         mechanicPanels[2].SetActive(true);
         yield return null;
     }
+
+    private IEnumerator DoLavaFade()
+    {
+        yield return StartCoroutine(FadeBlackScreen(3, 1));
+
+        yield return new WaitForSeconds(0.5f);
+
+        RestartLevel();
+    }
+
     #endregion
 
     #region private functions
@@ -377,6 +387,13 @@ public class UIController : MonoBehaviour
             }
         }
     }
+
+    public void DoLavaCoroutine()
+    {
+        StartCoroutine(DoLavaFade());
+    }
+
+
 
     #endregion
 
